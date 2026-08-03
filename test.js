@@ -1,6 +1,6 @@
-/* =========
+/*==========
    STATE
-========== */
+===========*/
 let tasks = [];
 let editcard = null;
 let activecard = null;
@@ -301,6 +301,21 @@ undo button for backup the delete card
     });
   });
 
+/* evnt listener for ctrl + o to open the add card popup */
+
+document.addEventListener("keydown", (e) => {
+  if(e.key === "ctrl" && e.key === "o"){
+    e.preventDefault();
+
+/* when ctrl + o is pressed the add card popup will be open */
+    activeColumn = document.getElementById("ox1");
+    box = activeColumn.querySelector(".box");
+
+    columnbox.classList.add("active");
+  }
+});
+
+
   if (addConfirmBtn) {
     addConfirmBtn.addEventListener("click", () => {
       submitCard();
@@ -557,6 +572,7 @@ function search() {
     const text = searchInput.value.trim().toLowerCase();
     const card = document.querySelectorAll(".card");
 
+
     card.forEach(card => {
       const title = card.querySelector("h4").textContent.toLowerCase();
       const description = card.querySelector("p").textContent.toLowerCase();
@@ -573,4 +589,13 @@ function search() {
 /*=================================================
   if the every  column has tarsk true false value 
 ==================================================*/
+
+
+
+
+
+
+
+
+
 
