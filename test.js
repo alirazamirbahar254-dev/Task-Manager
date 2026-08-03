@@ -10,6 +10,7 @@ let collapsebtn = {};
 let deletetask = null;
 let lastdeletedtask = null;
 let undoTimer = null;
+let draggedCard = null;
 
 /*==========================================================================
     Run everything after the HTML is fully loaded — safer than assuming
@@ -287,6 +288,23 @@ undo button for backup the delete card
     updateCounts();
   }
 
+/*================================================
+      drag and drop functionality for cards 
+=================================================*/
+
+document.querySelectorAll(".column").forEach(column => {
+  column.querySelectorAll(".card").forEach(card => { 
+  card.setAttribute("draggable", "true");
+  card.addEventListener("dragstart", (e) => {
+    draggedCard = card;
+  })
+
+document.addEventListener("dragover", (e) => {
+  e.preventDefault();
+})
+})
+})
+
   /* ===============================
      ADD / EDIT CARD popup wiring
   =================================*/
@@ -314,7 +332,6 @@ document.addEventListener("keydown", (e) => {
     columnbox.classList.add("active");
   }
 });
-
 
   if (addConfirmBtn) {
     addConfirmBtn.addEventListener("click", () => {
