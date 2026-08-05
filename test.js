@@ -1,6 +1,4 @@
-/*==========
-   STATE
-===========*/
+/* State */
 let tasks = [];
 let editcard = null;
 let activecard = null;
@@ -10,12 +8,9 @@ let collapsebtn = {};
 let deletetask = null;
 let lastdeletedtask = null;
 let undoTimer = null;
-let draggedCard = null;
 
-/*==========================================================================
-    Run everything after the HTML is fully loaded — safer than assuming
-       the script tag is placed after all the elements it needs. 
-==========================================================================*/
+
+/* Run after the DOM is fully loaded */
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -41,15 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const undobox = document.querySelector(".undo-box");
   const undobtn = document.querySelector(".undo-btn");
 
-  const summarybtn = document.querySelector(".summary-btn");
-  const summaryheader = document.querySelector(".summary-header")
-  const summaryclose = document.querySelector(".summary-close");
-  const content = document.querySelector(".summary-content");
-  const summarybox = document.querySelector(".summary-box");
   
-  /* =========================
-         LOAD / SAVE
-  ========================= */
+  /* Load / save tasks */
   function loadTasks() {
     const saved = localStorage.getItem("tasks");
 
@@ -71,25 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
-
+    
   }
 
-  /*===============================================================
-     CARD CREATION (shared by "add new" and "render from storage")
-     This is the single place that builds a card's HTML + wires up
-     its buttons. Both makecard() and renderboard() call this now,
-     instead of duplicating the same markup and listeners twice.
-
-     NOTE: the "yes" / "no" / "undobtn" listeners are NOT attached
-     here anymore — they belong to ONE shared modal/toast, so they
-     are attached once, outside this function (see below).
-  =================================================================*/
+  /* Shared card builder */
 
   function createCardElement(task) {
     if (!task) return document.createElement("div");
-/*=======================================================
-       destructure method applaying 
-=======================================================*/
+/* Destructure task data */
 
   const {title, description, id, columnId} = task;
 
@@ -154,9 +131,7 @@ renderboard();
 }
 
 
-/*===================================
- undo box that contain delete task 
-====================================*/
+/* Undo delete panel */
 
   if (no) {
     no.addEventListener("click", () => {
@@ -164,9 +139,7 @@ renderboard();
     });
   }
 
-/*==========================
- delete task conformation 
-==========================*/
+/* Delete confirmation */
 
   if (yes) {
     yes.addEventListener("click", () => {
@@ -179,9 +152,7 @@ renderboard();
         boxd.classList.remove("active");
         if (undobox) undobox.classList.add("active");
 
-/*=====================================
-how much time undobox will be visebale
-======================================*/
+/* Undo panel timeout */
 
       undoTimer = setTimeout(() => {
       undobox.classList.remove("active");
@@ -192,9 +163,7 @@ how much time undobox will be visebale
     });
   }
 
-/*=====================================
-undo button for backup the delete card 
-======================================*/
+/* Restore deleted card */
 
   if (undobtn) {
     undobtn.addEventListener("click", () => {
@@ -210,9 +179,7 @@ undo button for backup the delete card
     });
   }
 
-  /*====================================================
-  == RENDER BOARD (rebuilds all columns from `tasks`) ==
-  ===================================================== */
+  /* Render board */
   function updateCounts() {
     document.querySelectorAll(".column").forEach(column => {
       const cardCount = column.querySelectorAll(".card").length;
@@ -223,28 +190,31 @@ undo button for backup the delete card
     });
   }
 
-  /*===========================
-      column cards hide show 
-  ============================*/
+  /* Toggle column collapse */
+
+  function syncCollapseIcon(button, box) {
+    const icon = button.querySelector(".collapse-icon");
+    if (!icon) return;
+
+    if (box.classList.contains("active")) {
+      icon.classList.remove("ti-arrows-minimize");
+      icon.classList.add("ti-arrows-maximize");
+    } else {
+      icon.classList.remove("ti-arrows-maximize");
+      icon.classList.add("ti-arrows-minimize");
+    }
+  }
 
   function collapse() {
     document.querySelectorAll(".collapse-btn").forEach(button => {
       button.addEventListener("click", (e) => {
-        const icon = button.querySelector(".collapse-icon");
         const column = button.closest(".column");
         const box = column.querySelector(".box");
         box.classList.toggle("active");
-
-        if (box.classList.contains("active")) {
-          icon.classList.replace("ti-arrows-minimize", "ti-arrows-maximize");
-        } else {
-          icon.classList.replace("ti-arrows-maximize", "ti-arrows-minimize");
-        }
+        syncCollapseIcon(button, box);
         collapsebtn[column.id] = box.classList.contains("active");
         
-        /*========================================================
-        saving the collapse state to localStorage with error handling
-        ==========================================================*/
+        /* Save collapse state */
         try{
           localStorage.setItem("collapsebtn", JSON.stringify(collapsebtn));
         }catch(error){
@@ -256,9 +226,7 @@ undo button for backup the delete card
     });
   }
 
-  /*====================
-     sort to the cards
-  ====================*/
+  /* Sort cards */
 
   function sort() {
     const sortmenu = document.querySelector(".sort-menu");
@@ -285,9 +253,7 @@ undo button for backup the delete card
     });
   }
 
-/*=================================
-    rendering of tasks on screen 
-==================================*/
+/* Render tasks to the screen */
 
   function renderboard() {
     document.querySelectorAll(".box").forEach(b => {
@@ -304,9 +270,7 @@ undo button for backup the delete card
         targetBox.appendChild(div);
       }
     });
-    /*=============================
-         empty state rendering
-    =============================*/
+    /* Empty state rendering */
 
     document.querySelectorAll(".column").forEach(column => {
       const box = column.querySelector(".box");
@@ -322,15 +286,11 @@ undo button for backup the delete card
     updateCounts();
   }
 
-/*=======================================================
-  drag and drop functionality for cards between columns
-========================================================*/
+/* Drag and drop cards between columns */
 
 
 
-  /* ===============================
-     ADD / EDIT CARD popup wiring
-  =================================*/
+  /* Add / edit popup */
 
   addbtns.forEach(button => {
     button.addEventListener("click", (e) => {
@@ -342,13 +302,13 @@ undo button for backup the delete card
     });
   });
 
-/* evnt listener for ctrl + o to open the add card popup */
+/* Ctrl + O opens the add popup */
 
 document.addEventListener("keydown", (e) => {
   if(e.ctrlKey && e.key === "o"){
     e.preventDefault();
 
-/* when ctrl + o is pressed the add card popup will be open */
+/* Open the add popup with Ctrl + O */
     activeColumn = document.getElementById("ox1");
     box = activeColumn.querySelector(".box");
 
@@ -362,9 +322,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  /*===========================================
-      press enter for submit the card 
-  ============================================*/
+  /* Enter submits the card */
 
   if (input) {
     input.addEventListener("keydown", (e) => {
@@ -376,9 +334,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-/*======================================================================================
-   Ctrl + Enter submits from the description field; plain Enter still makes a new line
-=======================================================================================*/
+/* Ctrl + Enter submits from the description field */
 
   if (description) {
     description.addEventListener("keydown", (e) => {
@@ -396,9 +352,7 @@ document.addEventListener("keydown", (e) => {
 
     if (editcard) {
 
-/*=====================================
-  cheking point for duplicat values 
-======================================*/
+/* Duplicate title check */
     const isDuplicate = tasks.some(t => t.title.trim().toLowerCase() === input.value.trim().toLowerCase())
     if(isDuplicate ){
      console.warn("A task with this title already exists!");
@@ -419,9 +373,7 @@ document.addEventListener("keydown", (e) => {
 
     } else {
 
-/*============================
- card data in object form
- ===========================*/
+/* Create the new card object */
 
       const newCard = {
         id: Date.now(),
@@ -451,9 +403,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  /* =========================
-     ☰ SIDE MENU TOGGLE
-  ========================= */
+  /* Side menu toggle */
   if (menuBtn && menu) {
     menuBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -461,9 +411,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  /* =========================
-     🌙 THEME TOGGLE
-  ========================= */
+  /* Theme toggle */
   if (themeBtn) {
     themeBtn.addEventListener("click", () => {
       const isdark = document.body.classList.toggle("dark");
@@ -472,9 +420,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  /*============================
-          toggle function
-   ============================*/
+  /* Generic toggle helper */
   function toggle(targetbtn, targetmenu, activeClass = "active") {
     if (!targetbtn || !targetmenu) return;
     targetbtn.addEventListener("click", (e) => {
@@ -494,7 +440,7 @@ document.addEventListener("keydown", (e) => {
   toggle(menuBtn, menu);
 
 
-  // close all open dropdowns / side menu when clicking anywhere else
+  // Close open dropdowns and side menu
   document.addEventListener("click", () => {
     if (menu) menu.classList.remove("active");
     document.querySelectorAll(".statusBaar").forEach(s => {
@@ -502,7 +448,7 @@ document.addEventListener("keydown", (e) => {
     });
   });
 
-  // close the add/edit popup when clicking outside it
+  // Close popup when clicking outside
   document.addEventListener("click", (e) => {
     if (
       columnbox &&
@@ -514,10 +460,7 @@ document.addEventListener("keydown", (e) => {
     }
   });
 
-  /* =====================================
-     INIT — runs once, in the right order
-  ======================================= */
-
+  /* Init app state */
   loadTasks();
   if (themeBtn) {
     if (localStorage.getItem("theme") === "dark") {
@@ -531,20 +474,23 @@ document.addEventListener("keydown", (e) => {
   collapsebtn = JSON.parse(localStorage.getItem("collapsebtn")) || {};
   document.querySelectorAll(".column").forEach(column => {
     const box = column.querySelector(".box");
+    const button = column.querySelector(".collapse-btn");
     if (collapsebtn[column.id]) {
       box.classList.add("active");
+    } else {
+      box.classList.remove("active");
     }
+    syncCollapseIcon(button, box);
   });
 
   renderboard();
+  dropzoone();
   updateCounts();
   collapse();
   search();
   sort();
 
-  /*================================
-   one lisner for all card button 
-  =================================*/
+  /* Single click handler for card actions */
 
    document.querySelector(".section").addEventListener("click", (e) => {
 
@@ -565,9 +511,7 @@ document.addEventListener("keydown", (e) => {
     boxd.classList.add("active");
 }
 
-/*========================================
- edit button with delegation method 
-=========================================*/
+/* Edit action via delegation */
 
     if(action === "edit"){
     
@@ -583,9 +527,7 @@ document.addEventListener("keydown", (e) => {
     activecard = card;
   
 }
-//============================================================
-//  change a card's column when a status option is clickedn //
-// ===========================================================
+// Change card column from status action
 
     if(action === "status"){
 
@@ -603,9 +545,7 @@ document.addEventListener("keydown", (e) => {
 );
 });
 
-/*=================
-  searching for cards
-===================*/
+/* Search cards */
 
 function search() {
   const searchInput = document.querySelector("#search");
@@ -629,9 +569,7 @@ function search() {
   });
 }
 
-/*=================================================
-  if the every  column has tarsk true false value 
-==================================================*/
+/* Column task status check */
 
 
 
