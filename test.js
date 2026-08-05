@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const div = document.createElement("div");
     div.classList.add("card");
     div.dataset.id = id;
-    
+    div.draggable = true;
     div.innerHTML = `
       <button class="dropdownbtn"  data-action="dropdown">⋮</button>
       <h4>${title}</h4>
@@ -110,6 +110,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <button class="delete-btn"  data-action="delete">🗑️ Delete </button>
       </div>
 `
+
+    div.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", id);
+    });
 
     // dropdown toggle (status menu)
     const dropdownbtn = div.querySelector(".dropdownbtn");
@@ -127,6 +131,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     return div;
   }
+
+
+function dropzoone() {
+document.querySelectorAll(".box").forEach(box => {
+box.addEventListener("dragover", (e) => {
+e.preventDefault();
+
+})
+
+box.addEventListener("drop", (e) =>{
+e.preventDefault();
+const id = Number(e.dataTransfer.getData("text/plain"));
+const task = tasks.find(t => t.id === id);
+const columnid = box.closest(".column").id;
+task.columnId = columnid;
+saveTasks();
+renderboard();
+
+})
+})
+}
+
 
 /*===================================
  undo box that contain delete task 
@@ -214,9 +240,18 @@ undo button for backup the delete card
         } else {
           icon.classList.replace("ti-arrows-maximize", "ti-arrows-minimize");
         }
-
         collapsebtn[column.id] = box.classList.contains("active");
-        localStorage.setItem("collapsebtn", JSON.stringify(collapsebtn));
+        
+        /*========================================================
+        saving the collapse state to localStorage with error handling
+        ==========================================================*/
+        try{
+          localStorage.setItem("collapsebtn", JSON.stringify(collapsebtn));
+        }catch(error){
+          console.error("Error saving collapse state to localStorage:", error.message);
+          collapsebtn = {};
+        }
+        
       });
     });
   }
@@ -269,7 +304,6 @@ undo button for backup the delete card
         targetBox.appendChild(div);
       }
     });
-
     /*=============================
          empty state rendering
     =============================*/
@@ -288,22 +322,11 @@ undo button for backup the delete card
     updateCounts();
   }
 
-/*================================================
-      drag and drop functionality for cards 
-=================================================*/
+/*=======================================================
+  drag and drop functionality for cards between columns
+========================================================*/
 
-document.querySelectorAll(".column").forEach(column => {
-  column.querySelectorAll(".card").forEach(card => { 
-  card.setAttribute("draggable", "true");
-  card.addEventListener("dragstart", (e) => {
-    draggedCard = card;
-  })
 
-document.addEventListener("dragover", (e) => {
-  e.preventDefault();
-})
-})
-})
 
   /* ===============================
      ADD / EDIT CARD popup wiring
@@ -322,7 +345,7 @@ document.addEventListener("dragover", (e) => {
 /* evnt listener for ctrl + o to open the add card popup */
 
 document.addEventListener("keydown", (e) => {
-  if(e.key === "ctrl" && e.key === "o"){
+  if(e.ctrlKey && e.key === "o"){
     e.preventDefault();
 
 /* when ctrl + o is pressed the add card popup will be open */
@@ -373,12 +396,15 @@ document.addEventListener("keydown", (e) => {
 
     if (editcard) {
 
-    /* cheking point for duplicat values */
+/*=====================================
+  cheking point for duplicat values 
+======================================*/
     const isDuplicate = tasks.some(t => t.title.trim().toLowerCase() === input.value.trim().toLowerCase())
     if(isDuplicate ){
      console.warn("A task with this title already exists!");
      return
     }
+
       editcard.title = input.value;
       editcard.description = description.value;
 
@@ -392,6 +418,7 @@ document.addEventListener("keydown", (e) => {
       activecard = null;
 
     } else {
+
 /*============================
  card data in object form
  ===========================*/
@@ -446,7 +473,7 @@ document.addEventListener("keydown", (e) => {
   }
 
   /*============================
-    toggle function
+          toggle function
    ============================*/
   function toggle(targetbtn, targetmenu, activeClass = "active") {
     if (!targetbtn || !targetmenu) return;
@@ -465,7 +492,6 @@ document.addEventListener("keydown", (e) => {
   toggle(searchbtn, searchInput);
   toggle(sortbtn, sortmenu);
   toggle(menuBtn, menu);
-
 
 
   // close all open dropdowns / side menu when clicking anywhere else
