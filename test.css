@@ -1,7 +1,5 @@
 /* =========================================================
-   DESIGN TOKENS
-   Everything below is driven from these variables so the
-   whole app (light + dark) stays consistent from one place.
+   1. DESIGN TOKENS
 ========================================================= */
 :root {
   --bg: #f7f8fa;
@@ -59,6 +57,9 @@ body.dark {
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
+/* =========================================================
+   2. GLOBAL RESET & BASE STYLES
+========================================================= */
 * {
   margin: 0;
   padding: 0;
@@ -73,8 +74,9 @@ body {
 }
 
 /* =========================================================
-   NAV BAR
+   3. NAVIGATION
 ========================================================= */
+/* Search input shown when the user opens the navigation search field. */
 #search.active{
     display: flex;
 }
@@ -132,8 +134,7 @@ body {
 #searchbtn:active {
   transform: scale(0.92);
 }
-/* Wrapper — needed so .filters-menu can position itself
-   relative to this container, not the whole page */
+/* Wrapper that anchors the sort dropdown relative to the navigation controls. */
 #model {
   position: relative;
 }
@@ -174,7 +175,7 @@ body {
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-/* Dropdown menu container */
+/* Sort dropdown menu shown when the user opens the sorting options. */
 .sort-menu {
   display: none;
   flex-direction: column;
@@ -236,7 +237,6 @@ body {
 }
 
 
-
 .nav {
   position: relative;
   display: flex;
@@ -288,7 +288,7 @@ body {
   transform-origin: left;
 }
 
-/* menu (hamburger) button — hidden on desktop, shown on mobile via media query below */
+/* Hamburger button that opens the mobile navigation menu. */
 #btn {
   position: absolute;
   left: 16px;
@@ -340,6 +340,7 @@ body {
   background-color: var(--surface-2);
 }
 
+
 .menu li a {
   display: block;
   padding: 8px 12px;
@@ -371,8 +372,9 @@ body {
 }
 
 /* =========================================================
-   BOARD LAYOUT
+   4. BOARD LAYOUT
 ========================================================= */
+/* Main board container that arranges the task columns in a row or responsive grid. */
 .section {
   background-color: transparent;
   display: flex;
@@ -384,6 +386,34 @@ body {
   margin: 0 auto;
 }
 
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 40px;
+}
+
+/* Empty-state message shown when a column has no cards yet. */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 32px 12px;
+  margin: 4px 0;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  opacity: 0;
+  animation: fadeInEmpty 0.25s ease forwards;
+}
+
+/* =========================================================
+   5. COLUMNS
+========================================================= */
 .column {
   flex: 1;
   min-width: 180px;
@@ -447,74 +477,7 @@ body {
   align-items: center;
   gap: 6px;
 }
-/* columns empty messages */
-.empty-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 13.5px;
-  font-weight: 500;
-  padding: 32px 12px;
-  margin: 4px 0;
-  border: 1.5px dashed var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface-2);
-  opacity: 0;
-  animation: fadeInEmpty 0.25s ease forwards;
-}
 
-@keyframes fadeInEmpty {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.box {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 40px;
-}
-
-/* add-card button */
-.add-btn {
-  margin-left: -15px;  
-  align-self: center;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
-  background-color: transparent;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: var(--radius-sm);
-  transition: background-color 0.15s ease, transform 0.15s ease, color var(--ease);
-}
-
-.add-btn:hover {
-  background-color: var(--accent-soft);
-  color: var(--accent);
-  transform: scale(1.08);
-}
-
-.add-btn:active {
-  transform: scale(0.95);
-}
-
-/* =========================================================
-   CARDS
-=========================================================*/
 .box{
     display: none;
 }
@@ -523,6 +486,9 @@ body {
     display: flex;
 }
 
+/* =========================================================
+   6. CARDS
+=========================================================*/
 .card {
   position: relative;
   z-index: 1;
@@ -568,7 +534,7 @@ body {
 }
 
 
-/* ye poora naya block add karo, .card ke baad */
+/* Keeps the active card above nearby cards when its action menu is open. */
 .card:has(.statusBaar.active) {
   z-index: 20;
 }
@@ -583,7 +549,10 @@ body {
   transform: scale(1.1);
 }
 
-/* dropdown ("...") toggle on each card */
+/* =========================================================
+   7. CARD ACTIONS / DROPDOWNS
+========================================================= */
+/* Small overflow button on each card that opens the card actions menu. */
 .dropdownbtn {
   position: absolute;
   bottom: 10px;
@@ -611,7 +580,7 @@ body {
   transform: scale(0.92);
 }
 
-/* status change dropdown */
+/* Compact action menu used to change a card's status or trigger card actions. */
 .statusBaar {
   position: absolute;
   top: 8px;
@@ -656,7 +625,7 @@ body {
   color: var(--accent)
 }
 
-/* edit and delete button */
+/* Action buttons for editing or deleting the selected card. */
 .edit-btn,
 .delete-btn{
 
@@ -695,6 +664,41 @@ body {
     background: rgba(220, 38, 38, .1);
 }
 
+/* =========================================================
+   8. BUTTONS
+========================================================= */
+/* Button used to open the add/edit dialog for a specific column. */
+.add-btn {
+  margin-left: -15px;  
+  align-self: center;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  background-color: transparent;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, transform 0.15s ease, color var(--ease);
+}
+
+.add-btn:hover {
+  background-color: var(--accent-soft);
+  color: var(--accent);
+  transform: scale(1.08);
+}
+
+.add-btn:active {
+  transform: scale(0.95);
+}
+
+/* =========================================================
+   9. UNDO NOTIFICATION
+========================================================= */
 /*===========
   undo-box
 ============*/
@@ -747,8 +751,9 @@ body {
 }
 
 /* =========================================================
-   ADD / EDIT MODAL
+   10. MODALS / POPUPS
 ========================================================= */
+/* Overlay behind the add/edit dialog that dimms the page while the modal is open. */
 .model-container {
   position: fixed;
   inset: 0;
@@ -830,7 +835,7 @@ body {
   display: flex;
 }
 
-/* close / confirm buttons on the modal */
+/* Buttons used to close or confirm the add/edit modal. */
 #model-btn,
 #add {
   width: 26px;
@@ -849,7 +854,7 @@ body {
   color: var(--danger);
   background: var(--danger-soft);
 }
-
+l
 #model-btn:hover {
   background-color: var(--danger);
   color: #ffffff;
@@ -872,48 +877,7 @@ body {
   transform: scale(0.92);
 }
 
-/* =========================================================
-   INPUTS
-========================================================= */
-input,
-textarea {
-  margin: 0 0 4px;
-  display: block;
-  padding: 9px 10px;
-  border-radius: var(--radius-sm);
-  width: 100%;
-  box-sizing: border-box;
-
-  background-color: var(--surface-2);
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-  font-size: 14px;
-  font-family: inherit;
-
-  transition: border-color var(--ease), background-color var(--ease);
-}
-
-textarea {
-  height: 70px;
-  resize: vertical;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  background-color: var(--surface);
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--text-muted);
-}
-
-.nav-title {
-  display: none;
-}
-/* delete popup box */
+/* Confirmation dialog shown before a task is permanently removed. */
 .boxd{
     position: fixed;
     top: 50%;
@@ -981,7 +945,53 @@ textarea::placeholder {
     background: var(--border);
 }
 
+/* =========================================================
+   11. INPUTS
+========================================================= */
+/* Shared styling for text fields and text areas in the task dialog. */
+input,
+textarea {
+  margin: 0 0 4px;
+  display: block;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  width: 100%;
+  box-sizing: border-box;
 
+  background-color: var(--surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  font-size: 14px;
+  font-family: inherit;
+
+  transition: border-color var(--ease), background-color var(--ease);
+}
+
+textarea {
+  height: 70px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background-color: var(--surface);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.nav-title {
+  display: none;
+}
+
+/* =========================================================
+   12. RESPONSIVE DESIGN
+========================================================= */
+/* Responsive layout adjustments for smaller screens. */
 @media (max-width: 767px) {
   .section {
     flex-direction: column;
@@ -1035,4 +1045,18 @@ textarea::placeholder {
     max-width: 90vw;
   }
 }
+}
+
+/* =========================================================
+   13. ANIMATIONS
+========================================================= */
+@keyframes fadeInEmpty {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

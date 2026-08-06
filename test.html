@@ -4,139 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task-Manager</title>
+
+    <!-- Styles -->
     <link rel="stylesheet" href="test.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-   
 </head>
 <body>
 
-<div class="nav">
-<button id="btn">☰</button>
-<button id="searchbtn" data-action="search">🔍</button>
-<input type="text" id="search" placeholder="Search...."> 
+    <!-- Navigation -->
+    <div class="nav">
+        <button id="btn">☰</button>
+        <button id="searchbtn" data-action="search">🔍</button>
+        <input type="text" id="search" placeholder="Search....">
 
-<ul class="ul">
-<li><a href="#">Home</a></li>
-<li><a href="#">About</a></li>
-<li><a href="#">Services</a></li>
-<li><a href="#">Contact</a></li>
-</ul>
-<span class="nav-title"><b>Task_Board</b></span>
-<!-- nav bar mein button add karo, sort-btn ke paas -->
+        <ul class="ul">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
 
-<button class="sort-btn">↕-Sort</button>
-<button id="them">🌙</button>
+        <span class="nav-title"><b>Task_Board</b></span>
+        <button class="sort-btn">↕-Sort</button>
+        <button id="them">🌙</button>
 
-<div class="sort-menu">
-  <button data-sort= "newest">Newest</button>
-  <button data-sort="oldest">Oldest</button>
-  <button data-sort="az">A → Z</button>
-  <button data-sort="za">Z → A</button>
+        <div class="sort-menu">
+            <button data-sort="newest">Newest</button>
+            <button data-sort="oldest">Oldest</button>
+            <button data-sort="az">A → Z</button>
+            <button data-sort="za">Z → A</button>
+        </div>
+    </div>
 
-</div>
-</div>
+    <!-- Mobile Menu -->
+    <div id="model">
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Help</a></li><br /><br />
+        </ul>
+    </div>
 
-<div id="model">
-<ul class="menu">
-<li><a href="#">Home</a></li>
-<li><a href="#">About</a></li>
-<li><a href="#">Services</a></li>
-<li><a href="#">Contact</a></li>
-<li><a href="#">Help</a></li><br /><br />
-</ul>
-</div>
+    <!-- Board Columns -->
+    <div class="section">
+        <div class="column" id="box1">
+            <div class="column-header">
+                <h4><i class="ti ti-circle-dashed col-icon"></i> Backlogs</h4>
+                <span class="count-badge">0</span>
+                <button class="collapse-btn" data-action="collapse" aria-label="Toggle column">
+                    <i class="ti ti-arrows-minimize collapse-icon"></i>
+                </button>
+                <button class="add-btn" data-action="add" data-column="box1">+</button>
+            </div>
+            <div class="box"></div>
+        </div>
 
-<!-- columns data -->
-<!--column one-->
+        <div class="column" id="box2">
+            <div class="column-header">
+                <h4><i class="ti ti-circle col-icon"></i> Todo</h4>
+                <span class="count-badge">0</span>
+                <button class="collapse-btn" data-action="collapse" aria-label="Toggle column">
+                    <i class="ti ti-arrows-minimize collapse-icon"></i>
+                </button>
+                <button class="add-btn" data-action="add" data-column="box2">+</button>
+            </div>
+            <div class="box"></div>
+        </div>
 
-<div class="section">
-    <div class="column" id="box1">
-<div class="column-header">
-    <h4><i class="ti ti-circle-dashed col-icon"></i> Backlogs</h4>
-    <span class="count-badge">0</span>
+        <div class="column" id="box3">
+            <div class="column-header">
+                <h4><i class="ti ti-progress-check col-icon"></i> In Progress</h4>
+                <span class="count-badge">0</span>
+                <button class="collapse-btn" data-action="collapse" data-action="collapse" aria-label="Toggle column">
+                    <i class="ti ti-arrows-minimize collapse-icon"></i>
+                </button>
+                <button class="add-btn" data-action="add" data-column="box3">+</button>
+            </div>
+            <div class="box"></div>
+        </div>
 
-    <button class="collapse-btn" data-action="collapse"aria-label="Toggle column">
-  <i class="ti ti-arrows-minimize collapse-icon"></i>
-</button>
+        <div class="column" id="box4">
+            <div class="column-header">
+                <h4><span class="icon-done-wrap"><i class="ti ti-check"></i></span> Done</h4>
+                <span class="count-badge">0</span>
+                <button class="collapse-btn" data-action="collapse" aria-label="Toggle column">
+                    <i class="ti ti-arrows-minimize collapse-icon"></i>
+                </button>
+                <button class="add-btn" data-action="add" data-column="box4">+</button>
+            </div>
+            <div class="box"></div>
+        </div>
+    </div>
 
-    <button class="add-btn" data-action="add" data-column="box1">+</button>
-</div>
-<div class="box"></div>
-</div>
+    <!-- Delete Confirmation -->
+    <div class="boxd">
+        <h3>Delete Task</h3>
+        <p>Are you sure you want to delete this task?</p>
+        <button class="yes" data-action="yes">Yes</button>
+        <button class="no" data-action="no">Cancel</button>
+    </div>
 
-<!--column two-->
-<div class="column" id="box2">
-<div class="column-header">
-    <h4><i class="ti ti-circle col-icon"></i> Todo</h4>
-    <span class="count-badge">0</span>
+    <!-- Undo Notification -->
+    <div class="undo-box">
+        <h3>🗑️ Task Deleted</h3>
+        <button class="undo-btn" data-action="undo">↶ Undo</button>
+    </div>
 
-    <button class="collapse-btn" data-action="collapse"aria-label="Toggle column">
-  <i class="ti ti-arrows-minimize collapse-icon"></i>
-</button>
+    <!-- Task Modal -->
+    <div class="columnbox">
+        <label for="column1">Title</label>
+        <input type="text" id="column1" placeholder="Enter Title.....">
 
-    <button class="add-btn" data-action="add" data-column="box2">+</button>
-</div>
-<div class="box"></div>
-</div>
+        <label for="column2">Description</label>
+        <textarea id="column2" placeholder="Enter Description......."></textarea>
 
-<!--column three-->
-<div class="column" id="box3">
-<div class="column-header">
-    <h4><i class="ti ti-progress-check col-icon"></i> In Progress</h4>
-    <span class="count-badge">0</span>
+        <button class="column-btn" data-action="cancel" id="columnbtn1">❌</button>
+        <button class="column-btn" data-action="confirm" id="columnbtn2">✅</button>
+    </div>
 
-    <button class="collapse-btn" data-action="collapse"data-action="collapse"   aria-label="Toggle column">
-  <i class="ti ti-arrows-minimize collapse-icon"></i>
-</button>
-
-    <button class="add-btn" data-action="add" data-column="box3">+</button>
-</div>
-<div class="box"></div>
-</div>
-
-<!--column four-->
-<div class="column" id="box4">
-<div class="column-header">
-    <h4><span class="icon-done-wrap"><i class="ti ti-check"></i></span> Done</h4>
-    <span class="count-badge">0</span>
-
-    <button class="collapse-btn" data-action="collapse"aria-label="Toggle column">
-  <i class="ti ti-arrows-minimize collapse-icon"></i>
- </button>
-
-    <button class="add-btn" data-action="add" data-column="box4">+</button>
-</div>
-<div class="box"></div>
-</div>
-</div>
-
-<!-- model box for the dellete button -->
-<div class="boxd">
-    <h3>Delete Task</h3>
-    <p>Are you sure you want to delete this task?</p>
-
-    <button class="yes" data-action="yes">Yes</button>
-    <button class="no"  data-action="no">Cancel</button>
-</div>
-
-<div class="undo-box">
-<h3>🗑️ Task Deleted</h3>
-<button class="undo-btn" data-action="undo">↶ Undo</button>
-</div>
-
-<!--adding a task model-->
-<div class="columnbox">
-    <label for="column1">Title</label>
-<input type="text" id="column1" placeholder="Enter Title.....">
-
-<label for="column2">Description</label>
-<textarea id="column2" placeholder="Enter Description......."></textarea>
-
-<button class="column-btn" data-action="cancel" id="columnbtn1">❌</button>
-<button class="column-btn" data-action="confirm" id="columnbtn2">✅</button>
-</div>
-
- 
-<script src="test.js"></script>
+    <!-- Scripts -->
+    <script src="test.js"></script>
 </body>
 </html>

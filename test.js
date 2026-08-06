@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const undobox = document.querySelector(".undo-box");
   const undobtn = document.querySelector(".undo-btn");
 
-  
   /* Load / save tasks */
   function loadTasks() {
     const saved = localStorage.getItem("tasks");
@@ -59,10 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    
+  
   }
 
-  /* Shared card builder */
+   //Shared card builder 
 
   function createCardElement(task) {
     if (!task) return document.createElement("div");
@@ -88,6 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
 `
 
+/************************
+         * Drag 
+ ************************/
     div.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", id);
     });
@@ -107,12 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
     return div;
+    
   }
-
 
 function dropzoone() {
 document.querySelectorAll(".box").forEach(box => {
 box.addEventListener("dragover", (e) => {
+  console.log(e.target);
 e.preventDefault();
 
 })
@@ -130,8 +133,9 @@ renderboard();
 })
 }
 
-
-/* Undo delete panel */
+/***************************
+ *Delete Undo delete panel 
+***************************/
 
   if (no) {
     no.addEventListener("click", () => {
@@ -139,7 +143,7 @@ renderboard();
     });
   }
 
-/* Delete confirmation */
+//Delete confirmation */
 
   if (yes) {
     yes.addEventListener("click", () => {
