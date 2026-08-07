@@ -229,10 +229,12 @@ renderboard();
   function collapse() {
     document.querySelectorAll(".collapse-btn").forEach(button => {
       button.addEventListener("click", (e) => {
+  
         const column = button.closest(".column");
         const box = column.querySelector(".box");
         box.classList.toggle("active");
-
+        column.classList.toggle("collapsed");
+        
         syncCollapseIcon(button, box);
         collapsebtn[column.id] = box.classList.contains("active");
         

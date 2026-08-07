@@ -386,6 +386,11 @@ body {
   margin: 0 auto;
 }
 
+.section:has(.column.collapsed) {
+  justify-content: flex-start;
+  gap: 6px;
+}
+
 .box {
   display: flex;
   flex-direction: column;
@@ -424,7 +429,15 @@ body {
   flex-direction: column;
   gap: 10px;
   background: transparent;
-  transition: background-color var(--ease);
+  transition: background-color var(--ease), min-width var(--ease), max-width var(--ease), flex var(--ease), width var(--ease);
+}
+
+.column.collapsed {
+  flex: 0 0 90px;
+  min-width: 90px;
+  max-width: 90px;
+  width: 90px;
+  padding-inline: 8px;
 }
 
 
@@ -474,6 +487,34 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.column.collapsed .column-header {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.column.collapsed .column-header h4 {
+  writing-mode: vertical-rl;
+  transform: none;
+  white-space: nowrap;
+}
+
+.column.collapsed .column-header .count-badge,
+.column.collapsed .column-header .add-btn,
+.column.collapsed .collapse-btn {
+  transform: none;
+  margin-left: 0;
+}
+
+.column.collapsed .column-header .add-btn {
+  align-self: center;
+}
+
+.column.collapsed .collapse-btn {
+  transform: rotate(90deg);
+  transform-origin: center;
 }
 
 .box{
@@ -529,7 +570,6 @@ body {
   overflow-wrap: break-word;
   word-break: break-word;
 }
-
 
 /* Keeps the active card above nearby cards when its action menu is open. */
 .card:has(.statusBaar.active) {
