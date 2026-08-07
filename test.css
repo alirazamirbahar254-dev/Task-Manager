@@ -487,6 +487,7 @@ body {
 /* =========================================================
    6. CARDS
 =========================================================*/
+
 .card {
   position: relative;
   z-index: 1;
@@ -499,11 +500,9 @@ body {
   overflow-wrap: break-word;
   word-break: break-word;
   box-shadow: var(--shadow-sm);
-  transition: border-color var(--ease), transform 0.15s ease, box-shadow var(--ease);
-  
+  transition: border-color var(--ease), transform 0.25s ease, box-shadow var(--ease);
+
 }
-
-
 
 .card:hover {
   border-color: var(--accent);
