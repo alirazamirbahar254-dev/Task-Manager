@@ -1,4 +1,6 @@
-/* State */
+// =============================
+// App State
+// =============================
 let tasks = [];
 let editcard = null;
 let activecard = null;
@@ -9,8 +11,9 @@ let deletetask = null;
 let lastdeletedtask = null;
 let undoTimer = null;
 
-
-/* Run after the DOM is fully loaded */
+// =============================
+// Initialize After DOM Load
+// =============================
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -36,7 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const undobox = document.querySelector(".undo-box");
   const undobtn = document.querySelector(".undo-btn");
 
-  /* Load / save tasks */
+  // -----------------------------
+  // Load and Save Tasks
+  // -----------------------------
   function loadTasks() {
     const saved = localStorage.getItem("tasks");
 
@@ -61,7 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
   }
 
-   //Shared card builder 
+  // -----------------------------
+  // Build Card UI
+  // -----------------------------
 
   function createCardElement(task) {
     if (!task) return document.createElement("div");
@@ -87,9 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
 `
 
-/************************
-         * Drag 
- ************************/
+/*******************************************
+// TODO : Drag ============================
+// - Complete drag-and-drop logic.
+//  -Remaining:
+// - Insert card between other cards
+// - Smooth drag animation
+// - Improve drop position detection
+// - Update localStorage after final drop
+*******************************************/
+
     div.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", id);
     });
@@ -109,13 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
     return div;
-    
+
   }
 
 function dropzoone() {
 document.querySelectorAll(".box").forEach(box => {
 box.addEventListener("dragover", (e) => {
-  console.log(e.target);
 e.preventDefault();
 
 })
@@ -183,7 +196,9 @@ renderboard();
     });
   }
 
-  /* Render board */
+  // -----------------------------
+  // Board Rendering
+  // -----------------------------
   function updateCounts() {
     document.querySelectorAll(".column").forEach(column => {
       const cardCount = column.querySelectorAll(".card").length;
@@ -194,7 +209,9 @@ renderboard();
     });
   }
 
-  /* Toggle column collapse */
+  // -----------------------------
+  // Column Collapse Handling
+  // -----------------------------
 
   function syncCollapseIcon(button, box) {
     const icon = button.querySelector(".collapse-icon");
@@ -215,6 +232,7 @@ renderboard();
         const column = button.closest(".column");
         const box = column.querySelector(".box");
         box.classList.toggle("active");
+
         syncCollapseIcon(button, box);
         collapsebtn[column.id] = box.classList.contains("active");
         
@@ -225,12 +243,14 @@ renderboard();
           console.error("Error saving collapse state to localStorage:", error.message);
           collapsebtn = {};
         }
-        
+
       });
     });
   }
 
-  /* Sort cards */
+  // -----------------------------
+  // Sorting Logic
+  // -----------------------------
 
   function sort() {
     const sortmenu = document.querySelector(".sort-menu");
@@ -257,7 +277,9 @@ renderboard();
     });
   }
 
-/* Render tasks to the screen */
+// -----------------------------
+// Render Tasks to the Screen
+// -----------------------------
 
   function renderboard() {
     document.querySelectorAll(".box").forEach(b => {
@@ -290,11 +312,15 @@ renderboard();
     updateCounts();
   }
 
-/* Drag and drop cards between columns */
+// -----------------------------
+// Drag and Drop Behavior
+// -----------------------------
 
 
 
-  /* Add / edit popup */
+  // -----------------------------
+  // Add and Edit Modal Flow
+  // -----------------------------
 
   addbtns.forEach(button => {
     button.addEventListener("click", (e) => {
@@ -306,7 +332,7 @@ renderboard();
     });
   });
 
-/* Ctrl + O opens the add popup */
+// Shortcut: Ctrl + O opens the add popup
 
 document.addEventListener("keydown", (e) => {
   if(e.ctrlKey && e.key === "o"){
@@ -326,7 +352,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  /* Enter submits the card */
+  // Enter submits the current card
 
   if (input) {
     input.addEventListener("keydown", (e) => {
@@ -338,7 +364,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-/* Ctrl + Enter submits from the description field */
+// Ctrl + Enter submits from the description field
 
   if (description) {
     description.addEventListener("keydown", (e) => {
@@ -407,7 +433,9 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  /* Side menu toggle */
+  // -----------------------------
+  // Menu and Theme Controls
+  // -----------------------------
   if (menuBtn && menu) {
     menuBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -415,7 +443,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  /* Theme toggle */
+  // Theme toggle
   if (themeBtn) {
     themeBtn.addEventListener("click", () => {
       const isdark = document.body.classList.toggle("dark");
@@ -424,7 +452,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  /* Generic toggle helper */
+  // Generic toggle helper
   function toggle(targetbtn, targetmenu, activeClass = "active") {
     if (!targetbtn || !targetmenu) return;
     targetbtn.addEventListener("click", (e) => {
@@ -464,7 +492,9 @@ document.addEventListener("keydown", (e) => {
     }
   });
 
-  /* Init app state */
+  // -----------------------------
+  // Initialize App State
+  // -----------------------------
   loadTasks();
   if (themeBtn) {
     if (localStorage.getItem("theme") === "dark") {
@@ -494,7 +524,9 @@ document.addEventListener("keydown", (e) => {
   search();
   sort();
 
-  /* Single click handler for card actions */
+  // -----------------------------
+  // Card Action Delegation
+  // -----------------------------
 
    document.querySelector(".section").addEventListener("click", (e) => {
 
@@ -549,7 +581,9 @@ document.addEventListener("keydown", (e) => {
 );
 });
 
-/* Search cards */
+// -----------------------------
+// Search Cards
+// -----------------------------
 
 function search() {
   const searchInput = document.querySelector("#search");
@@ -558,7 +592,6 @@ function search() {
   searchInput.addEventListener("input", () => {
     const text = searchInput.value.trim().toLowerCase();
     const card = document.querySelectorAll(".card");
-
 
     card.forEach(card => {
       const title = card.querySelector("h4").textContent.toLowerCase();
@@ -572,15 +605,5 @@ function search() {
     });
   });
 }
-
-/* Column task status check */
-
-
-
-
-
-
-
-
 
 
