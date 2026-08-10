@@ -227,6 +227,8 @@ renderboard();
   }
 
   function collapse() {
+    collapsebtn = JSON.parse(localStorage.getItem("collapsebtn")) || {};
+
     document.querySelectorAll(".collapse-btn").forEach(button => {
       button.addEventListener("click", (e) => {
   
@@ -234,8 +236,9 @@ renderboard();
         const box = column.querySelector(".box");
         box.classList.toggle("active");
         column.classList.toggle("collapsed");
-        
+
         syncCollapseIcon(button, box);
+       
         collapsebtn[column.id] = box.classList.contains("active");
         
         /* Save collapse state */
@@ -245,7 +248,8 @@ renderboard();
           console.error("Error saving collapse state to localStorage:", error.message);
           collapsebtn = {};
         }
-
+          saveTasks();
+          renderboard();
       });
     });
   }
@@ -313,12 +317,6 @@ renderboard();
 
     updateCounts();
   }
-
-// -----------------------------
-// Drag and Drop Behavior
-// -----------------------------
-
-
 
   // -----------------------------
   // Add and Edit Modal Flow
@@ -563,7 +561,7 @@ document.addEventListener("keydown", (e) => {
     columnbox.classList.add("active");
     editcard = task;
     activecard = card;
-  
+
 }
 // Change card column from status action
 
