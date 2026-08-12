@@ -10,7 +10,7 @@ let collapsebtn = {};
 let deletetask = null;
 let lastdeletedtask = null;
 let undoTimer = null;
-
+let deletecard = null;
 // =============================
 // Initialize After DOM Load
 // =============================
@@ -160,27 +160,35 @@ renderboard();
 
   if (yes) {
     yes.addEventListener("click", () => {
-      if (deletetask) {
+      if (!deletetask || !deletecard) return;
+
+      const finalizeDelete = () => {
+        if (!deletetask) return;
+
         lastdeletedtask = deletetask;
         tasks = tasks.filter(t => t.id !== deletetask.id);
         deletetask = null;
+        deletecard = null;
         saveTasks();
         renderboard();
         boxd.classList.remove("active");
         if (undobox) undobox.classList.add("active");
 
-/* Undo panel timeout */
+        /* Undo panel timeout */
+        undoTimer = setTimeout(() => {
+          undobox.classList.remove("active");
+          lastdeletedtask = null;
+        }, 3000);
+      };
 
-      undoTimer = setTimeout(() => {
-      undobox.classList.remove("active");
-      lastdeletedtask = null;
-      }, 3000);  
-}
-
+      deletecard.classList.add("delete-animation");
+      deletecard.addEventListener("animationend", finalizeDelete, { once: true });
+      deletecard.addEventListener("animationcancel", finalizeDelete, { once: true });
+      setTimeout(finalizeDelete, 350);
     });
   }
 
-/* Restore deleted card */
+  /* Restore deleted card */
 
   if (undobtn) {
     undobtn.addEventListener("click", () => {
@@ -227,20 +235,22 @@ renderboard();
   }
 
   function collapse() {
-    collapsebtn = JSON.parse(localStorage.getItem("collapsebtn")) || {};
 
+  JSON.parse(localStorage.getItem("collapsebtn")) || {};
     document.querySelectorAll(".collapse-btn").forEach(button => {
       button.addEventListener("click", (e) => {
-  
+
         const column = button.closest(".column");
         const box = column.querySelector(".box");
         box.classList.toggle("active");
         column.classList.toggle("collapsed");
 
         syncCollapseIcon(button, box);
-       
-        collapsebtn[column.id] = box.classList.contains("active");
-        
+
+        if(collapsebtn[column.id]){
+         box.classList.contains("active");
+        } 
+      
         /* Save collapse state */
         try{
           localStorage.setItem("collapsebtn", JSON.stringify(collapsebtn));
@@ -248,8 +258,7 @@ renderboard();
           console.error("Error saving collapse state to localStorage:", error.message);
           collapsebtn = {};
         }
-          saveTasks();
-          renderboard();
+          
       });
     });
   }
@@ -540,9 +549,9 @@ document.addEventListener("keydown", (e) => {
 
     if (action === "delete") {
     const card = button.closest(".card");
+    deletecard = card;
     const id = Number(card.dataset.id);
     const task = tasks.find(t => t.id === id);
-
     deletetask = task;
     boxd.classList.add("active");
 }
