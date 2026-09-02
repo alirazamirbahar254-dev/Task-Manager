@@ -10,6 +10,7 @@ let collapsebtn = {};
 let deletetask = null;
 let lastdeletedtask = null;
 let undoTimer = null;
+let addedcard = null;
 let deletecard = null;
 // =============================
 // Initialize After DOM Load
@@ -183,8 +184,6 @@ renderboard();
 
       deletecard.classList.add("delete-animation");
       deletecard.addEventListener("animationend", finalizeDelete, { once: true });
-      deletecard.addEventListener("animationcancel", finalizeDelete, { once: true });
-      setTimeout(finalizeDelete, 350);
     });
   }
 
@@ -355,7 +354,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-  if (addConfirmBtn) {
+  if(addConfirmBtn) {
     addConfirmBtn.addEventListener("click", () => {
       submitCard();
     });

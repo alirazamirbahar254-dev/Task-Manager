@@ -965,6 +965,7 @@ l
 /***************************
  delete card animation 
 ***************************/
+
 .card.delete-animation {
   animation: deleteCard 0.3s ease forwards;
 }
