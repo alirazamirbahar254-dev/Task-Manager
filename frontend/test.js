@@ -43,29 +43,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   // Load and Save Tasks
   // -----------------------------
-  function loadTasks() {
-    const saved = localStorage.getItem("tasks");
+  
+  async function loadTasks() {
+  try {
+    const response = await fetch("http://localhost:3000/tasks");
 
-    if (!saved) {
-      tasks = [];
-      return;
-    }
+    const data = await response.json();
 
-  try{
-
-    const data = JSON.parse(saved);
     tasks = Array.isArray(data) ? data : [];
 
-  }catch(error){
-      console.error("Invalid tasks data in localStorage:", error.message);
-      tasks = [];
+    renderboard();
+
+  } catch (error) {
+    console.error("Failed to load tasks:", error.message);
+    tasks = [];
   }
 }
 
-    function saveTasks() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  
-  }
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
   // -----------------------------
   // Build Card UI
@@ -75,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!task) return document.createElement("div");
 /* Destructure task data */
 
-  const {title, description, id, columnId} = task;
+  const {title, description, id, columnid } = task;
 
     const div = document.createElement("div");
     div.classList.add("card");
@@ -139,7 +136,7 @@ e.preventDefault();
 const id = Number(e.dataTransfer.getData("text/plain"));
 const task = tasks.find(t => t.id === id);
 const columnid = box.closest(".column").id;
-task.columnId = columnid;
+task.columnid = columnid;
 saveTasks();
 renderboard();
 
@@ -305,7 +302,7 @@ renderboard();
 
     tasks.forEach(task => {
       const div = createCardElement(task);
-      const targetBox = document.querySelector(`#${task.columnId} .box`);
+      const targetBox = document.querySelector(`#${task.columnid} .box`);
       if (targetBox) {
         targetBox.appendChild(div);
       }
@@ -333,8 +330,8 @@ renderboard();
   addbtns.forEach(button => {
     button.addEventListener("click", (e) => {
       e.stopPropagation();
-      const columnId = e.target.dataset.column;
-      activeColumn = document.getElementById(columnId);
+      const columnid = e.target.dataset.column;
+      activeColumn = document.getElementById(columnid);
       box = activeColumn.querySelector(".box");
       columnbox.classList.add("active");
     });
@@ -383,7 +380,7 @@ document.addEventListener("keydown", (e) => {
     });
   }
 
-  function submitCard() {
+  async function submitCard() {
     if (input.value === "" || description.value === "") {
       return;
     }
@@ -413,19 +410,37 @@ document.addEventListener("keydown", (e) => {
 
 /* Create the new card object */
 
-      const newCard = {
-        id: Date.now(),
-        title: input.value,
-        description: description.value,
-        columnId: activeColumn.id,
-        completed: false,
-      };
       
-      tasks.push(newCard);
-      saveTasks();
-      renderboard();
-    }
+    
+    const newCard = {
+  title: input.value,
+  description: description.value,
+  columnid: activeColumn.id,
+  completed: false,
+};
 
+try {
+  const response = await fetch("http://localhost:3000/tasks", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(newCard)
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Failed to create task");
+  }
+
+  tasks.push(data);
+  renderboard();
+
+} catch (error) {
+  console.error("Failed to create task:", error.message);
+}
+}
     input.value = "";
     description.value = "";
     columnbox.classList.remove("active");
@@ -525,7 +540,7 @@ document.addEventListener("keydown", (e) => {
     syncCollapseIcon(button, box);
   });
 
-  renderboard();
+  
   dropzoone();
   updateCounts();
   collapse();
@@ -579,7 +594,7 @@ document.addEventListener("keydown", (e) => {
     const columnid = button.dataset.column
     const id = Number(card.dataset.id);
     const task = tasks.find(t => t.id === id);
-    task.columnId = columnid;
+    task.columnid = columnid;
 
     saveTasks();
     renderboard();
