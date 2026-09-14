@@ -157,27 +157,46 @@ renderboard();
 //Delete confirmation */
 
   if (yes) {
-    yes.addEventListener("click", () => {
-      if (!deletetask || !deletecard) return;
+    yes.addEventListener("click", () => { 
+    if (!deletetask || !deletecard) return;
 
-      const finalizeDelete = () => {
-        if (!deletetask) return;
+const finalizeDelete = async () => {
+  if (!deletetask) return;
 
-        lastdeletedtask = deletetask;
-        tasks = tasks.filter(t => t.id !== deletetask.id);
-        deletetask = null;
-        deletecard = null;
-        saveTasks();
-        renderboard();
-        boxd.classList.remove("active");
-        if (undobox) undobox.classList.add("active");
+  try {
+    const response = await fetch(
+      `http://localhost:3000/tasks/${deletetask.id}`,
+      {
+        method: "DELETE"
+      }
+    );
 
-        /* Undo panel timeout */
-        undoTimer = setTimeout(() => {
-          undobox.classList.remove("active");
-          lastdeletedtask = null;
-        }, 3000);
-      };
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to delete task");
+    }
+
+    lastdeletedtask = deletetask;
+    tasks = tasks.filter(t => t.id !== deletetask.id);
+
+    deletetask = null;
+    deletecard = null;
+
+    renderboard();
+    boxd.classList.remove("active");
+
+    if (undobox) undobox.classList.add("active");
+
+    undoTimer = setTimeout(() => {
+      undobox.classList.remove("active");
+      lastdeletedtask = null;
+    }, 3000);
+
+  } catch (error) {
+    console.error("Failed to delete task:", error.message);
+  }
+};
 
       deletecard.classList.add("delete-animation");
       deletecard.addEventListener("animationend", finalizeDelete, { once: true });
@@ -186,19 +205,44 @@ renderboard();
 
   /* Restore deleted card */
 
-  if (undobtn) {
-    undobtn.addEventListener("click", () => {
-      clearTimeout(undoTimer);
-      if (lastdeletedtask) {
-        tasks.push(lastdeletedtask);
-        lastdeletedtask = null;
-        saveTasks();
-        renderboard();
+if (undobtn) {
+  undobtn.addEventListener("click", async () => {
+    clearTimeout(undoTimer);
 
+    if (!lastdeletedtask) return;
+
+    try {
+      const response = await fetch("http://localhost:3000/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: lastdeletedtask.title,
+          description: lastdeletedtask.description,
+          columnid: lastdeletedtask.columnid,
+          completed: lastdeletedtask.completed
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to restore task");
       }
+
+      tasks.push(data);
+      lastdeletedtask = null;
+
+      renderboard();
+
       if (undobox) undobox.classList.remove("active");
-    });
-  }
+
+    } catch (error) {
+      console.error("Failed to restore task:", error.message);
+    }
+  });
+}
 
   // -----------------------------
   // Board Rendering
@@ -381,11 +425,9 @@ document.addEventListener("keydown", (e) => {
   }
 
   async function submitCard() {
-    if (input.value === "" || description.value === "") {
-      return;
-    }
-
     if (editcard) {
+
+ 
 
 /* Duplicate title check */
     const isDuplicate = tasks.some(t => t.title.trim().toLowerCase() === input.value.trim().toLowerCase())
@@ -397,21 +439,27 @@ document.addEventListener("keydown", (e) => {
       editcard.title = input.value;
       editcard.description = description.value;
 
+      await fetch(`http://localhost:3000/tasks/${editcard.id}`,{
+        method : "PUT",
+        headers : {
+        "content-type":"application/json"
+        },
+
+        body : JSON.stringify(editcard),
+        })
+
       if (activecard) {
         activecard.querySelector("h4").textContent = input.value;
         activecard.querySelector("p").textContent = description.value;
       }
 
-      saveTasks();
       editcard = null;
       activecard = null;
 
     } else {
-
+    
 /* Create the new card object */
 
-      
-    
     const newCard = {
   title: input.value,
   description: description.value,
@@ -444,7 +492,7 @@ try {
     input.value = "";
     description.value = "";
     columnbox.classList.remove("active");
-  }
+}
 
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
@@ -565,7 +613,7 @@ try {
     const card = button.closest(".card");
     deletecard = card;
     const id = Number(card.dataset.id);
-    const task = tasks.find(t => t.id === id);
+    const task = tasks.find(t => Number(t.id) === id);
     deletetask = task;
     boxd.classList.add("active");
 }
@@ -576,7 +624,7 @@ try {
     
     const card = button.closest(".card");
     const id = Number(card.dataset.id);
-    const task = tasks.find(t => t.id === id);
+    const task = tasks.find(t => Number(t.id) === id);
 
     input.value = task.title;
     description.value = task.description;
@@ -602,7 +650,7 @@ try {
 
     }
 );
-});
+
 
 // -----------------------------
 // Search Cards
@@ -628,5 +676,7 @@ function search() {
     });
   });
 }
+
+});
 
 
