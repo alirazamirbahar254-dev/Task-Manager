@@ -134,10 +134,22 @@ e.preventDefault();
 box.addEventListener("drop", (e) =>{
 e.preventDefault();
 const id = Number(e.dataTransfer.getData("text/plain"));
-const task = tasks.find(t => t.id === id);
+const task = tasks.find(t => Number(t.id) === id);
 const columnid = box.closest(".column").id;
 task.columnid = columnid;
-saveTasks();
+try{ 
+ fetch(`http://localhost:3000/tasks/${id}`,{
+  method: "PUT",
+  headers : {
+  "content-type":"application/json",
+  },
+
+  body : JSON.stringify(task)
+})
+}catch(error){
+  console.error("update api failed", error)
+}
+
 renderboard();
 
 })
@@ -426,8 +438,6 @@ document.addEventListener("keydown", (e) => {
 
   async function submitCard() {
     if (editcard) {
-
- 
 
 /* Duplicate title check */
     const isDuplicate = tasks.some(t => t.title.trim().toLowerCase() === input.value.trim().toLowerCase())
