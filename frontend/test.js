@@ -548,7 +548,7 @@ try {
     });
   }
 
-  toggle(searchbtn, searchInput);
+  
   toggle(sortbtn, sortmenu);
   toggle(menuBtn, menu);
 
@@ -651,10 +651,22 @@ try {
     const card = button.closest(".card");
     const columnid = button.dataset.column
     const id = Number(card.dataset.id);
-    const task = tasks.find(t => t.id === id);
+    const task = tasks.find(t => Number(t.id) === id);
     task.columnid = columnid;
-
-    saveTasks();
+    try{
+        fetch(`http://localhost:3000/tasks/${id}`,{     
+      method : "PUT",
+      headers: { 
+        "content-type":"application/json",
+      },
+                                      
+       body : JSON.stringify(task),
+     })
+     
+    }catch(error){
+      console.error("failed api to update tasks:",error);
+    }
+    
     renderboard();
 }
 
