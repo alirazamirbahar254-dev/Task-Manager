@@ -43,8 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   // Load and Save Tasks
   // -----------------------------
-  
-  async function loadTasks() {
+
+  async function ks() {
   try {
     const response = await fetch("http://localhost:3000/tasks");
 
@@ -91,7 +91,6 @@ function saveTasks() {
         <button class="delete-btn"  data-action="delete">🗑️ Delete </button>
       </div>
 `
-
 /*******************************************
 // TODO : Drag ============================
 // - Complete drag-and-drop logic.
@@ -302,7 +301,7 @@ if (undobtn) {
         if(collapsebtn[column.id]){
          box.classList.contains("active");
         } 
-      
+
         /* Save collapse state */
         try{
           localStorage.setItem("collapsebtn", JSON.stringify(collapsebtn));
@@ -310,7 +309,7 @@ if (undobtn) {
           console.error("Error saving collapse state to localStorage:", error.message);
           collapsebtn = {};
         }
-          
+  
       });
     });
   }
@@ -323,24 +322,16 @@ if (undobtn) {
     const sortmenu = document.querySelector(".sort-menu");
     if (!sortmenu) return;
 
-    sortmenu.addEventListener("click", (e) => {
+    sortmenu.addEventListener("click", async (e) => {
       const type = e.target.dataset.sort;
-      if (!type) return;
+      if (!type) return;  
 
-      if (type === "newest") {
-        tasks.sort((a, b) => b.id - a.id);
-
-      } else if (type === "oldest") {
-        tasks.sort((a, b) => a.id - b.id);
-
-      } else if (type === "az") {
-        tasks.sort((a, b) => a.title.localeCompare(b.title));
-
-      } else if (type === "za") {
-        tasks.sort((a, b) => b.title.localeCompare(a.title));
-      }
-
-      renderboard();
+    const response = await fetch(`http://localhost:3000/tasks?sort=${type}`, 
+  );
+      const data = await response.json();
+        tasks = data
+     
+   renderboard();
     });
   }
 
@@ -576,7 +567,7 @@ try {
   // -----------------------------
   // Initialize App State
   // -----------------------------
-  loadTasks();
+  ks();
   if (themeBtn) {
     if (localStorage.getItem("theme") === "dark") {
       document.body.classList.add("dark");
