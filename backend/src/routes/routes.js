@@ -13,7 +13,7 @@ import {
 
 const router = Router();
 
-router.post("/tasks", createtask);
+router.post("/tasks",authMiddleware, createtask);
 router.get("/tasks", getAllTasks);
 router.get("/tasks/:id", getTask);
 router.put("/tasks/:id", updatetask);
@@ -24,9 +24,6 @@ router.post("/auth/login", loginuser)
 router.get("/test-auth", authMiddleware, (req, res) => {
     res.json({ message: "Middleware passed" });
 });
-
-
-
 
 export default router;
 

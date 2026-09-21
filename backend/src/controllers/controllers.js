@@ -6,11 +6,11 @@ import jwt from "jsonwebtoken";
 const createtask = async (req, res) => {
 
     const {title,description,columnid,completed} = req.body;
-
+       
     try{ 
-    const result = await pool.query(`INSERT INTO tasks (title,description,columnid,completed)
-         VALUES ($1,$2,$3,$4) RETURNING*`,
-         [title, description, columnid, completed]);
+    const result = await pool.query(`INSERT INTO tasks (title,description,columnid,completed,user_id)
+         VALUES ($1,$2,$3,$4,$5) RETURNING*`,
+         [title, description, columnid, completed,req.loginuser.user_id]);
          res.status(201).json(result.rows[0])
 
       }catch (error) {
@@ -30,7 +30,6 @@ try{
 }
 }
 
-
 //Controller function to retrieve a task from the database
 const getTask = async (req, res) => {
  
@@ -47,7 +46,7 @@ const updatetask = async (req, res) => {
 
 try{ 
     
-    const { title, description, columnid, completed, } = req.body;
+    const { title, description, columnid, completed} = req.body;
     const { id } = req.params;
 
     const result = await pool.query(`UPDATE tasks SET title = $1, description = $2, columnid = $3, completed = $4 WHERE id = $5 RETURNING *`,[title,description,columnid,completed,id]); 
@@ -86,6 +85,7 @@ const deletetask = async (req, res) => {
    if(!emailregex.test(email)){
     return res.status(400).send('invalide email fromat')
    }
+   
 //convert password in the hashing form 
    const saltRounds = 10;
    
@@ -114,7 +114,7 @@ try{
              const compare = await bcrypt.compare(password,hashedpassword);
              console.log(compare);
  let token;
- 
+
      if(compare){
      
         const payload = {user_id}
