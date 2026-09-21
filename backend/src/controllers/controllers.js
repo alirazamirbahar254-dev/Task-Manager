@@ -34,7 +34,7 @@ try{
 const getTask = async (req, res) => {
  
 try{
-    const result = await pool.query();
+    const result = await pool.query("select*from tasks where id = $1 and user_id = $2", [req.params.id, req.loginuser.user_id]);
     res.status(200).json(result.rows); 
 }catch (error) {
     res.status(400).json({ error: "Failed to retrieve tasks" });
@@ -49,7 +49,8 @@ try{
     const { title, description, columnid, completed} = req.body;
     const { id } = req.params;
 
-    const result = await pool.query(`UPDATE tasks SET title = $1, description = $2, columnid = $3, completed = $4 WHERE id = $5 RETURNING *`,[title,description,columnid,completed,id]); 
+    const result = await pool.query(`UPDATE tasks 
+    SET title = $1, description = $2, columnid = $3, completed = $4 WHERE id = $5 RETURNING*`,               [title,description,columnid,completed,id]); 
     res.status(200).json(result.rows);
 }catch (error) {
     console.error(error);
