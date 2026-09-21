@@ -1,4 +1,7 @@
 import pool from "../db.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 // Controller function to enter tasks in  the database
 const createtask = async (req, res) => {
 
@@ -26,6 +29,7 @@ try{
     res.status(400).json({ error: "Failed to retrieve tasks" });
 }
 }
+
 
 //Controller function to retrieve a task from the database
 const getTask = async (req, res) => {
@@ -73,7 +77,67 @@ const deletetask = async (req, res) => {
 }
 }
 
-export { createtask, getAllTasks, getTask, updatetask, deletetask };
+//controller fuction for register to users 
+    const registerusers = async (req, res) => {
+    const {name,email,password} = req.body;
+
+//regex functin useing for email validation
+   const emailregex = /^[a-z]+[0-9]+@[a-z]+\.[a-z]+$/;
+   if(!emailregex.test(email)){
+    return res.status(400).send('invalide email fromat')
+   }
+//convert password in the hashing form 
+   const saltRounds = 10;
+   
+   const hashedpassword = await bcrypt.hash(password, saltRounds);
+    
+   console.log("🔒 Sign Up Successful! Hash saved in database:", hashedpassword);
+    
+try{
+    const register = await pool.query(`insert into users (name,email,password)
+    values($1,$2,$3) RETURNING*`, [name,email,hashedpassword])
+     res.status(201).json(register.rows[0]);
+    
+ }catch(error){
+   
+ if(error.code === "23505"){
+     res.status(409).json({message:"Email already exists"});
+ }
+   
+ }
+}
+  
+    const loginuser = async (req, res) => {
+    const {name, email, password}  = req.body;
+    const login =  await pool.query(`select * from users where email = $1`, [email])
+            const {id:user_id , password:hashedpassword} = login.rows[0];
+             const compare = await bcrypt.compare(password,hashedpassword);
+             console.log(compare);
+ let token;
+ 
+     if(compare){
+     
+        const payload = {user_id}
+        const secret = process.env.JWT_SECRET;
+          token = jwt.sign(payload, secret, {expiresIn : '1h'})     
+}else {
+    console.log("password incorrect")
+    }
+    res.status(200).json({token})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+export { createtask, getAllTasks, getTask, updatetask, deletetask, registerusers,loginuser};
 
     
     
