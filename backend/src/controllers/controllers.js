@@ -50,7 +50,7 @@ try{
     const { id } = req.params;
 
     const result = await pool.query(`UPDATE tasks 
-    SET title = $1, description = $2, columnid = $3, completed = $4 WHERE id = $5 RETURNING*`,               [title,description,columnid,completed,id]); 
+    SET title = $1, description = $2, columnid = $3, completed = $4 WHERE id = $5 and user_id = $6  RETURNING*`,       [title,description,columnid,completed,id, req.loginuser.user_id]); 
     res.status(200).json(result.rows);
 }catch (error) {
     console.error(error);
