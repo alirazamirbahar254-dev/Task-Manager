@@ -23,7 +23,7 @@ const createtask = async (req, res) => {
 const getAllTasks = async (req, res) => {
  
 try{
-    const result = await pool.query("SELECT * FROM  tasks");
+    const result = await pool.query("SELECT * FROM  tasks where user_id = $1",[req.loginuser.user_id]);
     res.status(200).json(result.rows); 
 }catch (error) {
     res.status(400).json({ error: "Failed to retrieve tasks" });

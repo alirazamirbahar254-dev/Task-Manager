@@ -19,6 +19,7 @@ jwt.verify(token,secret, (error, decode) => {
 if(error){
     return res.status(401).json({error:'Invalid or expired token'})
 }
+
 req.loginuser = decode
 next()
 })
