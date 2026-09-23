@@ -1,62 +1,42 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>signup-Task-Manager</title>
-
-    <!-- Styles -->
+    <title>signin-task_manager</title>
     <link rel="stylesheet" href="signup.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 </head>
 <body>
-<!-- login page-->
-<div class="form">
-<div class="fbox"> 
-    <form> 
-    <fieldset>
     
-    
-        <h1>Login</h1>
-        <h5>to get started</h5>
-    
-
-        <input type ="email" id="email" placeholder="Email">
-        <input type ="password" id="password" placeholder="Password">
-        
-        <h6>Forgot Password?</h6>
-
-        <button type="submit" id="login">Continue</button>
-        <p>New user? <button  type="button"  id="signup"><span>Sign-up</span></button></p>
-         
-        </fieldset>
-    </form>
-</div>
-</div>
-
 
 <!--sign-up page-->
 
-<div class="signupform">
+<div class="signupform1">
 <div class="signupform2">
 <fieldset>
 
-<div class="1n2n">
-<input type="text" id="1stname" placeholder="First Name">
-<input type="text" id="2ndname" placeholder="Last Name">
+<h2>Sign Up</h2>
+<h4>to create your account</h4>
+
+<div class="names">
+<input type="text" id="name1" placeholder="First Name">
+<input type="text" id="name2" placeholder="Last Name">
 </div>
 
-<input type="email" id="signemail" placeholder="Email">
+<input type="email" id="signupemail" placeholder="Email">
 
-<input type="password" id="signpassword" placeholder="PassWord">
-<input type="password" id="sign2password" placeholder="Confirm PassWord">
+<input type="password" id="sign1password" placeholder="Password">
+<input type="password" id="sign2password" placeholder="Confirm Password">
+
+<div id="check">
+<input type="checkbox" id="terms"> <p>I agree to Terms & Conditions</p>
+</div>
+
+<button type="submit" id="signup">Sign Up</button>
 
 </fieldset>
 </div>
 </div>
-
-
 
 <script src="script.js"></script>
 </body>
