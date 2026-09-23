@@ -443,7 +443,8 @@ document.addEventListener("keydown", (e) => {
       await fetch(`http://localhost:3000/tasks/${editcard.id}`,{
         method : "PUT",
         headers : {
-        "content-type":"application/json"
+        "content-type":"application/json",
+        "Authorization":`bearer ${token}`
         },
 
         body : JSON.stringify(editcard),
@@ -472,7 +473,8 @@ try {
   const response = await fetch("http://localhost:3000/tasks", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization":"`bearer${token}`"
     },
     body: JSON.stringify(newCard)
   });
