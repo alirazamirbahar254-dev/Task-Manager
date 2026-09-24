@@ -129,15 +129,6 @@ try{
 
 
 
-
-
-
-
-
-
-
-
-
 export { createtask, getAllTasks, getTask, updatetask, deletetask, registerusers,loginuser};
 
     
