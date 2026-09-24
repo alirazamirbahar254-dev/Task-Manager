@@ -76,7 +76,7 @@ h4 {
 }
 
 /*signup  page email fields*/
-#signupemail{
+#email{
 position: relative;
 width: 300px;
 align-self: center;
@@ -90,7 +90,7 @@ box-shadow:  0 2px 3px 0 rgba(0,0, 0,0.10);
 }
 
 /*signup password fields*/
-#sign1password, #sign2password{
+#password1, #password2{
 position: relative;
 display: flex;
 width: 300px;
@@ -101,13 +101,13 @@ box-shadow:  0 2px 3px 0 rgba(0,0, 0,0.10);
 
 }
 
-#sign1password {
+#password1 {
 top:100px;
 height:40px;
 padding: 5px;
 }
 
-#sign2password {
+#password2 {
 top:120px;
 height:40px;
 padding:5px;
