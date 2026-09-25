@@ -1,6 +1,10 @@
 const signin = document.querySelector("#signin");
 const login = document.querySelector("#login");
+const signup = document.querySelector("#signup");
 
+signup.addEventListener("click", () =>{
+window.location = "signup.html"
+});
 
 console.log("signin.js loaded");
 login.addEventListener("click", async () =>{
@@ -38,5 +42,7 @@ catch(error) {
    console.log(error)
 }
 })
+
+
 
 
