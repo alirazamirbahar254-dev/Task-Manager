@@ -1,5 +1,7 @@
 // =============================
 // App State
+
+
 // =============================
 let tasks = [];
 let editcard = null;
@@ -46,9 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function ks() {
   try {
-    const response = await fetch("http://localhost:3000/tasks");
-
-    const data = await response.json();
+    const response = await apifetch("http://localhost:3000/tasks",{
+    method: "GET",
+  headers : {
+  "content-type":"application/json",
+  },
+ })
+     const data = await response.json();
 
     tasks = Array.isArray(data) ? data : [];
 
@@ -136,8 +142,9 @@ const id = Number(e.dataTransfer.getData("text/plain"));
 const task = tasks.find(t => Number(t.id) === id);
 const columnid = box.closest(".column").id;
 task.columnid = columnid;
+
 try{ 
- fetch(`http://localhost:3000/tasks/${id}`,{
+apifetch(`http://127.0.0.1:3000/tasks/${id}`,{
   method: "PUT",
   headers : {
   "content-type":"application/json",
@@ -175,10 +182,12 @@ const finalizeDelete = async () => {
   if (!deletetask) return;
 
   try {
-    const response = await fetch(
-      `http://localhost:3000/tasks/${deletetask.id}`,
+    const response = await apiapiapiapiapifetch(`http://127.0.0.1:3000/tasks/${deletetask.id}`,
       {
-        method: "DELETE"
+        method: "DELETE",
+        headers :{
+          "content-type" : "application/JSON",
+        }
       }
     );
 
@@ -221,12 +230,11 @@ if (undobtn) {
     clearTimeout(undoTimer);
 
     if (!lastdeletedtask) return;
-
     try {
-      const response = await fetch("http://localhost:3000/tasks", {
+      const response = await apifetch("http://localhost:3000/tasks", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           title: lastdeletedtask.title,
@@ -326,8 +334,12 @@ if (undobtn) {
       const type = e.target.dataset.sort;
       if (!type) return;  
 
-    const response = await fetch(`http://localhost:3000/tasks?sort=${type}`, 
-  );
+    const response = await apifetch(`http://127.0.0.1:3000/tasks?sort=${type}`,{
+     headers : {
+      "content-type" : "application/JSON",
+     },
+    
+  });
       const data = await response.json();
         tasks = data
      
@@ -440,11 +452,10 @@ document.addEventListener("keydown", (e) => {
       editcard.title = input.value;
       editcard.description = description.value;
 
-      await fetch(`http://localhost:3000/tasks/${editcard.id}`,{
+      await apifetch(`http://127.0.0.1:3000/tasks/${editcard.id}`,{
         method : "PUT",
         headers : {
         "content-type":"application/json",
-        "Authorization":`bearer ${token}`
         },
 
         body : JSON.stringify(editcard),
@@ -468,13 +479,11 @@ document.addEventListener("keydown", (e) => {
   columnid: activeColumn.id,
   completed: false,
 };
-
 try {
-  const response = await fetch("http://localhost:3000/tasks", {
+  const response = await apifetch("http://localhost:3000/tasks", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization":"`bearer${token}`"
     },
     body: JSON.stringify(newCard)
   });
@@ -525,6 +534,48 @@ try {
       localStorage.setItem("theme", isdark ? "dark" : "light");
     });
   }
+  
+// Refresh access token using refresh token cookie
+const refreshtoken = async () => {
+const response = await fetch(`http://127.0.0.1:3000/auth/refresh`,{
+
+method:"POST",
+credentials: "include"  
+
+})
+
+ const data = await response.json()
+ localStorage.setItem("token", data.token)
+
+}
+
+
+
+//refresh token fuction provider for all api req
+const apifetch = async (url, options) => {
+const token1 = localStorage.getItem("token")
+options.headers = {
+  ...options.headers,
+  "Authorization" : `bearer ${token1}`
+}
+
+let response = await fetch(url, options)
+
+if(response.status === 401){
+await refreshtoken()
+const token = localStorage.getItem("token")
+
+options.headers = {
+ ...options.headers,
+ "Authorization" : `bearer ${token}`
+
+}
+
+response = await fetch(url, options);
+
+}
+return response;
+}
 
   // Generic toggle helper
   function toggle(targetbtn, targetmenu, activeClass = "active") {
@@ -647,7 +698,7 @@ try {
     const task = tasks.find(t => Number(t.id) === id);
     task.columnid = columnid;
     try{
-        fetch(`http://localhost:3000/tasks/${id}`,{     
+       apifetch(`http://127.0.0.1:3000/tasks/${id}`,{     
       method : "PUT",
       headers: { 
         "content-type":"application/json",

@@ -15,9 +15,10 @@ try {
     
 const userdata = {email:email, password:password}
 console.log("before fetch");
-const response = await fetch(`http://localhost:3000/auth/login`,{
+const response = await fetch(`http://127.0.0.1:3000/auth/login`,{
 
 method : "POST",
+  credentials: "include",
 
 headers : {
     "content-type" : "application/JSON",
@@ -42,7 +43,3 @@ catch(error) {
    console.log(error)
 }
 })
-
-
-
-

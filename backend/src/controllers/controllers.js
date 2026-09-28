@@ -115,21 +115,50 @@ try{
              const compare = await bcrypt.compare(password,hashedpassword);
              console.log(compare);
  let token;
+ let refreshtoken;
 
      if(compare){
-     
+        
         const payload = {user_id}
         const secret = process.env.JWT_SECRET;
-          token = jwt.sign(payload, secret, {expiresIn : '1h'})     
+        token = jwt.sign(payload, secret, {expiresIn : '10s'})   
+
+// refresh for user to continue work 
+        const refresh = process.env.REFRESH_SECRET;
+        refreshtoken = jwt.sign(payload, refresh, {expiresIn : '10d'})
+        
 }else {
     console.log("password incorrect")
     }
+
+// Store refresh token securely in an HttpOnly cookie
+    res.cookie("refreshtoken", refreshtoken, {httpOnly : true,   sameSite: "lax"
+})
+    console.log("Refresh cookie set");
     res.status(200).json({token})
+
 }
 
+const refresh = async (req, res) => {
+const {refreshtoken} = req.cookies;
+console.log(req.cookies);
+const refreshSecret = process.env.REFRESH_SECRET;
+const accessSecret = process.env.JWT_SECRET;
 
+jwt.verify(refreshtoken, refreshSecret, (error, decode) =>{
+if(error){
+    return  res.status(401).json({error:"invalide token"})
+}
 
-export { createtask, getAllTasks, getTask, updatetask, deletetask, registerusers,loginuser};
+const payload = { user_id: decode.user_id };
+console.log(payload)
+const token = jwt.sign(payload, accessSecret, {expiresIn : '1h'})
+res.status(200).json({token})
+
+})
+}
+
+export { createtask, getAllTasks, getTask, updatetask, deletetask, registerusers,loginuser,refresh};
 
     
     
