@@ -8,6 +8,7 @@ import {
     deletetask,
     registerusers,
     loginuser,
+    refresh,
 
 } from "../controllers/controllers.js";
 
@@ -19,10 +20,8 @@ router.get("/tasks/:id",authMiddleware, getTask);
 router.put("/tasks/:id",authMiddleware, updatetask);
 router.delete("/tasks/:id",authMiddleware, deletetask);
 router.post("/auth/register", registerusers);
-router.post("/auth/login", loginuser)
-router.get("/test-auth", authMiddleware, (req, res) => {
-    res.json({ message: "Middleware passed" });
-});
+router.post("/auth/login", loginuser);
+router.post("/auth/refresh", refresh )
 
 export default router;
 

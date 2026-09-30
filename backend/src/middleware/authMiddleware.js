@@ -9,12 +9,13 @@ console.log(authHeader)
 if (!authHeader) {
     return res.status(401).json({ error: "Authorization header missing" });
 }
+
 //only token without any spaces 
 const token = authHeader.split(" ")[1];
 
 //token verifying  is this valide token 
 const secret = process.env.JWT_SECRET;
-jwt.verify(token,secret, (error, decode) => {
+jwt.verify(token, secret, (error, decode) => {
     console.log(decode);
 if(error){
     return res.status(401).json({error:'Invalid or expired token'})
