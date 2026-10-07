@@ -41,6 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const boxd = document.querySelector(".boxd");
   const undobox = document.querySelector(".undo-box");
   const undobtn = document.querySelector(".undo-btn");
+  const logout = document.querySelector("#logout");
+  const profilebtn = document.querySelector("#profilebtn");
+  const profilemenu = document.querySelector(".profile-menu");
 
   // -----------------------------
   // Load and Save Tasks
@@ -172,6 +175,7 @@ renderboard();
     });
   }
 
+
 //Delete confirmation */
 
   if (yes) {
@@ -182,8 +186,9 @@ const finalizeDelete = async () => {
   if (!deletetask) return;
 
   try {
-    const response = await apiapiapiapiapifetch(`http://127.0.0.1:3000/tasks/${deletetask.id}`,
+    const response = await apifetch(`http://127.0.0.1:3000/tasks/${deletetask.id}`,
       {
+    
         method: "DELETE",
         headers :{
           "content-type" : "application/JSON",
@@ -275,12 +280,30 @@ if (undobtn) {
       }
     });
   }
+  //user logout function
+  logout.addEventListener("click", async() =>{
+  const response = await fetch("http://localhost:3000/auth/logout",{
+
+    method: "POST",
+    credentials: "include",
+    
+  })
+
+   if(response.ok){
+    console.log("logout successful")
+    window.location = "signin.html"
+ 
+    }
+
+  })
 
   // -----------------------------
   // Column Collapse Handling
   // -----------------------------
 
   function syncCollapseIcon(button, box) {
+    console.log("box classes:", box.className);
+    
     const icon = button.querySelector(".collapse-icon");
     if (!icon) return;
 
@@ -294,16 +317,22 @@ if (undobtn) {
   }
 
   function collapse() {
-
+  console.log("Collapse function called")
+  
   JSON.parse(localStorage.getItem("collapsebtn")) || {};
     document.querySelectorAll(".collapse-btn").forEach(button => {
-      button.addEventListener("click", (e) => {
+      button.addEventListener("click", () => {
 
         const column = button.closest(".column");
         const box = column.querySelector(".box");
+         console.log("box classes:", box.className);
+console.log("column classes:", column.className);
+
         box.classList.toggle("active");
         column.classList.toggle("collapsed");
 
+       console.log("active:", box.classList.contains("active"));
+console.log("collapsed:", column.classList.contains("collapsed"));
         syncCollapseIcon(button, box);
 
         if(collapsebtn[column.id]){
@@ -317,7 +346,7 @@ if (undobtn) {
           console.error("Error saving collapse state to localStorage:", error.message);
           collapsebtn = {};
         }
-  
+
       });
     });
   }
@@ -366,22 +395,25 @@ if (undobtn) {
         targetBox.appendChild(div);
       }
     });
-    /* Empty state rendering */
 
+    /* Empty state rendering */
     document.querySelectorAll(".column").forEach(column => {
       const box = column.querySelector(".box");
       const card = column.querySelectorAll(".card").length;
       if (card === 0) {
         const empty = document.createElement("div");
-        empty.textContent = "📭 No tasks yet";
+        empty.textContent = "No tasks yet";
         empty.classList.add("empty-state");
+        const icon = document.createElement("i")
+        icon.setAttribute("data-lucide", "package-open");
+        empty.appendChild(icon);
         box.appendChild(empty);
+        lucide.createIcons();
       }
     });
 
     updateCounts();
   }
-
   // -----------------------------
   // Add and Edit Modal Flow
   // -----------------------------
@@ -537,6 +569,7 @@ try {
   
 // Refresh access token using refresh token cookie
 const refreshtoken = async () => {
+console.log("REFRESH FUNCTION CALLED")
 const response = await fetch(`http://127.0.0.1:3000/auth/refresh`,{
 
 method:"POST",
@@ -544,12 +577,12 @@ credentials: "include"
 
 })
 
- const data = await response.json()
- localStorage.setItem("token", data.token)
-
+const data = await response.json()
+console.log("REFRESH STATUS:", response.status)
+localStorage.setItem("token", data.token)
+console.log("TOKEN SAVED:", localStorage.getItem("token"))
+console.log(data)
 }
-
-
 
 //refresh token fuction provider for all api req
 const apifetch = async (url, options) => {
@@ -590,12 +623,13 @@ return response;
     document.addEventListener("click", (e) => {
       targetmenu.classList.remove("active");
     });
+    
   }
 
   
   toggle(sortbtn, sortmenu);
   toggle(menuBtn, menu);
-
+  toggle(profilebtn, profilemenu);
 
   // Close open dropdowns and side menu
   document.addEventListener("click", () => {
@@ -717,7 +751,6 @@ return response;
     }
 );
 
-
 // -----------------------------
 // Search Cards
 // -----------------------------
@@ -744,5 +777,5 @@ function search() {
 }
 
 });
-
-
+//for icons
+lucide.createIcons();

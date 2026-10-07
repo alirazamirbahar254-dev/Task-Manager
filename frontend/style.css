@@ -72,29 +72,60 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   transition: background-color var(--ease), color var(--ease);
 }
+/*empty state box*/
+.empty-state svg {
+  width: 21px;
+  height: 21px;
+  margin-left: 8px;
+}
 
 /* =========================================================
    3. NAVIGATION
 ========================================================= */
+/*app-logo*/
+
+#todo-logo{
+ width:50px;
+ height:50px;
+}
+
+.nav-actions{
+  display:flex;
+  margin-left : auto;
+  gap:20px;
+  padding:15px;
+}
+.nav-left{
+display:flex;
+align-items: center;
+margin-right:auto;
+gap:20px;
+padding:15px
+  
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  transition: background-color var(--ease), border-color var(--ease);
+}
+
+
 /* Search input shown when the user opens the navigation search field. */
 #search.active{
     display: flex;
 }
+
 #search {
-  position: absolute;
-  left: 53px;
-  width: fit-content;
   height: 30px;
-
-  
-  align-items: center;
-
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
-
-  padding: 0 10px 0 34px; /* left padding taake icon/button ke liye jagah rahe */
   transition: border-color var(--ease), box-shadow var(--ease);
 }
 
@@ -104,55 +135,49 @@ body {
 }
 
 #search input {
+  
   background: transparent;
   border: none;
   outline: none;
   color: var(--text-primary);
   font-size: 14px;
   width: 100%;
+
 }
 
 #search input::placeholder {
   color: var(--text-muted);
 }
 
-#searchbtn {
-  position: absolute;
-  left: 30px;
-  background-color: transparent;
-  border: none;
-  font-size: 15px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: color var(--ease), transform var(--ease);
+/*search input container*/
+.search-box{
+position: relative;
+width:300px;
+
 }
 
-#searchbtn:hover {
-  color: var(--accent);
+/*search input icon*/
+.search-box svg{
+  display:flex;
+  position:absolute;
+  width:15px;
+  height:15px;
+  left:11px;
+  top:7px;
 }
-
-#searchbtn:active {
-  transform: scale(0.92);
-}
-/* Wrapper that anchors the sort dropdown relative to the navigation controls. */
-#model {
-  position: relative;
-}
-
 /* Filters trigger button */
 
 .sort-btn {
-  position: absolute;
-  right: 68px;
-  display: inline-flex;
+  margin-top:4px;
+  height:28px;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 6px 6px;
   background: var(--surface);
   color: var(--text-primary);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 500;
   cursor: pointer;
   box-shadow: var(--shadow-sm);
@@ -177,13 +202,12 @@ body {
 
 /* Sort dropdown menu shown when the user opens the sorting options. */
 .sort-menu {
-  display: none;
+  display:none;
   flex-direction: column;
   position: absolute;
   top: calc(100% + 2px);
-  right: 0;
-  min-width: 180px;
-  max-width: 220px;
+  min-width: 130px;
+  max-width: 160px;
   padding: 6px;
   gap: 2px;
   background: var(--surface);
@@ -191,14 +215,20 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   z-index: 1000;
+  
 }
+
+#searchbtn { display: none; }
 
 .sort-menu.active {
   display: flex;
 }
 
 /* Dropdown menu items */
-
+.sort-wrapper{
+  position:relative;
+  display:flex;
+}
 .sort-menu button {
   display: flex;
   align-items: center;
@@ -231,61 +261,142 @@ body {
   box-shadow: 0 0 0 2px var(--accent-soft);
 }
 
-
 .sort-menu.active{
   display: flex;
 }
-
-
-.nav {
-  position: relative;
+.profile{
+  display:flex;
+}
+/*outer image of profile */
+#profilebtn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  transition: background-color var(--ease), border-color var(--ease);
+  align-self: center;
 }
-
-.ul {
-  display: flex;
-  list-style: none;
-  gap: 40px;
-  margin: 0;
-  padding: 0;
-}
-
-.ul li a {
-  position: relative;
-  text-decoration: none;
-  color: var(--text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 6px 2px;
-  transition: color var(--ease);
-}
-
-.ul li a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
+/*outer image of profile */
+#profilebtn img {
   width: 100%;
-  height: 2px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.25s ease;
+  height: 100%;
 }
 
-.ul li a:hover {
-  color: var(--text-primary);
+#google-login img {
+    width: 15px;
+    height: 15px;
+
 }
 
-.ul li a:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+#google-login {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap:5px;
+    width:200px;
+    height:30px;
+    align-items: center;
+    border-radius:8px;
+    border:none;
+    margin-top:30px;
+    cursor:pointer;
+}   
+
+/*profile info*/
+.info1{
+display:flex;
+flex-direction:column;
+align-items: center;
+background:#4f46e5;
+color:white;
+height: 170px;
+border-radius: 10px;
+padding:10px;
+
+}
+/*inner image of profile */
+#image{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+}
+
+#username{
+   font-size: 13px;
+  margin-top:6px;
+
+}
+#useremail{
+  font-size: 11px;
+}
+
+.info2{
+display:flex;
+flex-direction:column;
+align-items: center;
+background: #1f2937;
+color: white;
+height: 150px;
+width:230px;
+border-radius: 10px;
+gap:10px;
+align-items: flex-start;
+padding: 30px 5px 5px;
+}
+
+.info2 button {
+  color: white;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+ width: 100%;
+  cursor: pointer;
+}
+
+/*buttons icons*/
+.info2 button svg {
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+
+}
+
+/* Profile menu shown when the user clicks on the profile button. */
+.profile-menu{
+  
+  background-color:#1f2937;
+  position: absolute;
+  display:flex;
+  flex-direction: column;
+  border: #000 solid 1px;
+  right: 15px;
+  top: 42px;
+  height: auto;
+  width:250px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+  padding:10px;
+  z-index:1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.profile-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 /* Hamburger button that opens the mobile navigation menu. */
@@ -307,53 +418,10 @@ body {
   background-color: var(--surface-2);
 }
 
-/* menu content (opened by #btn) */
-.menu {
-  position: fixed;
-  top: 64px;
-  left: 10px;
-  flex-direction: column;
-  display: none;
-  color: var(--text-primary);
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  gap: 4px;
-  list-style: none;
-  padding: 8px;
-  max-width: fit-content;
-  z-index: 1000;
-  font-size: 14px;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-}
-
-.menu.active {
-  display: flex;
-}
-
-.menu li {
-  border-radius: var(--radius-sm);
-  transition: background-color var(--ease);
-}
-
-.menu li:hover {
-  background-color: var(--surface-2);
-}
-
-
-.menu li a {
-  display: block;
-  padding: 8px 12px;
-  color: inherit;
-  text-decoration: none;
-}
 
 /* theme toggle button */
 #them {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  position: static;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -363,13 +431,11 @@ body {
   transition: background-color var(--ease), transform 0.15s ease;
 }
 
-#them:hover {
-  background-color: var(--surface-2);
-}
 
 #them:active {
-  transform: translateY(-50%) scale(0.9);
+  transform: scale(0.9);
 }
+
 
 /* =========================================================
    4. BOARD LAYOUT
@@ -384,8 +450,11 @@ body {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  
 }
-
+#box1, #box2, #box3, #box4{
+   background: var(--surface);
+}
 .section:has(.column.collapsed) {
   justify-content: flex-start;
   gap: 6px;
@@ -517,11 +586,11 @@ body {
 }
 
 .box{
-    display: none;
+    display: flex;
 }
 
 .box.active{
-    display: flex;
+    display: none;
 }
 
 /* =========================================================
@@ -889,7 +958,7 @@ body {
   color: var(--danger);
   background: var(--danger-soft);
 }
-l
+
 #model-btn:hover {
   background-color: var(--danger);
   color: #ffffff;
