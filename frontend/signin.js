@@ -12,7 +12,7 @@ login.addEventListener("click", async () =>{
 const email = document.querySelector("#email").value;
 const password = document.querySelector("#password").value;
 try {
-    
+
 const userdata = {email:email, password:password}
 console.log("before fetch");
 const response = await fetch(`http://127.0.0.1:3000/auth/login`,{
