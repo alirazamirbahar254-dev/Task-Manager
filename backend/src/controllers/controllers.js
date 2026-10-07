@@ -81,10 +81,15 @@ res.status(400).json({error: "Failed to delete task"});
 const registerusers = async (req, res) => {
 const {name,email,password} = req.body;
 
-//regex functin useing for email validation
-const emailregex = /^[a-z]+[0-9]+@[a-z]+\.[a-z]+$/;
+//regex validation function for password useing lookahead rull(?=.* )  
+const passwordregex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/;
+if(!passwordregex.test(password)){
+return res.status(400).send("🔐 Password must contain at least 8 characters, one letter, one number, and one special character.")
+}
+//regex validation function for email  
+const emailregex =/^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
 if(!emailregex.test(email)){
-return res.status(400).send('invalide email fromat')
+return res.status(400).send("Please enter a valid 📧 Email address")
 }
 
 //convert password in the hashing form 
@@ -92,12 +97,11 @@ const saltRounds = 10;
 
 const hashedpassword = await bcrypt.hash(password, saltRounds);
 
-console.log("🔒 Sign Up Successful! Hash saved in database:", hashedpassword);
 
 try{
 const register = await pool.query(`insert into users (name,email,password)
-values($1,$2,$3) RETURNING*`, [name,email,hashedpassword])
-res.status(201).json(register.rows[0]);
+values($1,$2,$3) RETURNING id, name, email`,[name,email,hashedpassword])
+res.status(201).send("Registration successful");
 
 }catch(error){
 
@@ -124,7 +128,6 @@ const update = pool.query(`update users SET last_refresh = CURRENT_TIMESTAMP,ses
 const payload = {user_id}
 const secret = process.env.JWT_SECRET;
 token = jwt.sign(payload, secret, {expiresIn : '1h'})   
-
 
 // refresh for user to continue work 
 const refresh = process.env.REFRESH_SECRET;
@@ -194,7 +197,14 @@ res.status(200).json({token})
 
 }
 
-export { createtask, getAllTasks, getTask, updatetask, deletetask, registerusers,loginuser,refresh};
+//making a user logout api 
+const logout = async(req, res) => {
+res.clearCookie("refreshtoken")
+res.status(200).json({message:"Logout successful"})
+}
+
+
+export { createtask, getAllTasks, getTask, updatetask, deletetask, registerusers,loginuser,refresh,logout};
 
 
 

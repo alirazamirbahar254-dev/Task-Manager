@@ -9,6 +9,7 @@ import {
     registerusers,
     loginuser,
     refresh,
+    logout,
 
 } from "../controllers/controllers.js";
 
@@ -21,7 +22,9 @@ router.put("/tasks/:id",authMiddleware, updatetask);
 router.delete("/tasks/:id",authMiddleware, deletetask);
 router.post("/auth/register", registerusers);
 router.post("/auth/login", loginuser);
-router.post("/auth/refresh", refresh )
+router.post("/auth/refresh", refresh );
+router.post("/auth/logout", logout);
+
 
 export default router;
 
