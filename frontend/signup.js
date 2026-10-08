@@ -1,9 +1,8 @@
 // Get Sign Up form values 
 const signup = document.querySelector("#signup");
-
+const signin = document.querySelector("#signin");
 // Listen for Sign Up button click
 signup.addEventListener("click", async () =>{
-
 //geting the values of fields
 const name1 = document.querySelector("#name1").value;
 const name2 = document.querySelector("#name2").value;
@@ -40,4 +39,7 @@ const response = await fetch(`http://127.0.0.1:3000/auth/register`,
      }    
 })
 
+signin.addEventListener("click", () => {
+ window.location = "signin.html"
 
+})
