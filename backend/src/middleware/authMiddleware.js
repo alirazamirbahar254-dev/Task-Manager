@@ -13,7 +13,7 @@ if (!authHeader) {
 //only token without any spaces 
 const token = authHeader.split(" ")[1];
 
-//token verifying  is this valide token 
+//token verifying is this valide token
 const secret = process.env.JWT_SECRET;
 jwt.verify(token, secret, (error, decode) => {
     console.log(decode);
