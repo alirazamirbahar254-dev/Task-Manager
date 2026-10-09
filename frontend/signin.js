@@ -1,12 +1,12 @@
 const signin = document.querySelector("#signin");
 const login = document.querySelector("#login");
 const signup = document.querySelector("#signup");
+const forgotpassword=document.querySelector("#forgotpassword")
 
 signup.addEventListener("click", () =>{
 window.location = "signup.html"
 });
 
-console.log("signin.js loaded");
 login.addEventListener("click", async () =>{
 
 const email = document.querySelector("#email").value;
@@ -30,16 +30,21 @@ console.log(response.status);
 const data = await response.json()
 
 //redirect to task manager after login
-if(response.status === 200){
-console.log("Login successful")
-window.location = "index.html"
+if (!response.ok) {
+  alert(data.message || "Incorrect email or password");
+  return;
 }
 
-localStorage.setItem("token",data.token)
+localStorage.setItem("token", data.token);
+window.location = "index.html";
 console.log(data)
 
 }
 catch(error) {
    console.log(error)
 }
+})
+
+forgotpassword.addEventListener("click", () => {
+window.location = "forgot-password/forgot-password.html"
 })
