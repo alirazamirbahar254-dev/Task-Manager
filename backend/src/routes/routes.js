@@ -11,6 +11,7 @@ import {
     refresh,
     logout,
     forgotpassword,
+    resetpassword,
 } from "../controllers/controllers.js";
 
 const router = Router();
@@ -25,6 +26,7 @@ router.post("/auth/login", loginuser);
 router.post("/auth/refresh", refresh );
 router.post("/auth/logout", logout);
 router.post("/auth/forgotpassword", forgotpassword);
+router.post("/auth/resetpassword", resetpassword);
 
 export default router;
 
