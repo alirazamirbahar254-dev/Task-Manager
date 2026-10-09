@@ -96,8 +96,6 @@ return res.status(400).send("Please enter a valid 📧 Email address")
 const saltRounds = 10;
 
 const hashedpassword = await bcrypt.hash(password, saltRounds);
-
-
 try{
 const register = await pool.query(`insert into users (name,email,password)
 values($1,$2,$3) RETURNING id, name, email`,[name,email,hashedpassword])
@@ -203,8 +201,42 @@ res.clearCookie("refreshtoken")
 res.status(200).json({message:"Logout successful"})
 }
 
+let forgottoken;
+//making a controller function for forgot pass word 
+const forgotpassword = async(req, res)=>{
+ const {email} = req.body
+ const forgotpassword = await  pool.query(`select * from users where email = $1`,[email])
+ const user = forgotpassword.rows[0]
+ if(user === undefined){
+    return res.status(404).send({
+    message:"user is undefined"
+    })
+ }
 
-export { createtask, getAllTasks, getTask, updatetask, deletetask, registerusers,loginuser,refresh,logout};
+const payload = {user_id}
+const secret = process.env.JWT_FORGOT_SECRET;
+forgottoken = jwt.sign(payload, secret,{expiresIn : "25m"})
+const updateresettoken = await pool.query(`update users set reset_token = $1 where id = $2`,[forgottoken, user_id])
+const twentyminuts = 25 * 60 * 1000 
+const expirytime = new Date(Date.now() + twentyminuts)
+const expirytimedb = await pool.query(`update users set reset_token_expiry = $1 where id = $2`, [expirytime, user_id])
+
+ }
+
+export { 
+
+    createtask, 
+    getAllTasks, 
+    getTask, 
+    updatetask, 
+    deletetask, 
+    registerusers,
+    loginuser,
+    refresh,
+    logout,
+    forgotpassword
+
+};
 
 
 
