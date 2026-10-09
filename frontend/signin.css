@@ -101,6 +101,11 @@ input:focus {
 }
 
 /* login form forgot password */
+#forgotpassword{
+  background:none;
+  border:none;
+}
+/* login form forgot password */
 h6 {
 color: #333333;
 font-family: 'Poppins', sans-serif;
