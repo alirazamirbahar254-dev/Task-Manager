@@ -8,8 +8,8 @@ resetpassword.addEventListener("click", async() => {
 const newpassword = document.querySelector("#new-password").value;
 const confirmpassword = document.querySelector("#confirm-password").value;
 if(newpassword !== confirmpassword) {
-    message.textContent = "Passwords do not match!";
-reture;
+    message.textContent = "Passwords don’t match! Please try again.";
+return;
 }
 
 const response = await fetch("http://127.0.0.1:3000/auth/resetpassword", {
@@ -27,6 +27,6 @@ const response = await fetch("http://127.0.0.1:3000/auth/resetpassword", {
 const data = await response.json();
 message.textContent = data.message || data.error;
 
-}) 
-
+});
+lucide.createIcons();
 
