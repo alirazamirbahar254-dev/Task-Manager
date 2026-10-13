@@ -7,7 +7,6 @@ const profilemenu = document.querySelector(".profile-menu");
 const outerletter = document.querySelector("#outer-letter");
 const profilebtnimg = document.querySelector("#profilebtn img");
 
-
 name.textContent = localStorage.getItem("name")
 email.textContent = localStorage.getItem("email")
 
