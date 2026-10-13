@@ -1,0 +1,198 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  transition: background-color var(--ease), color var(--ease);
+}
+
+
+
+/* Profile menu shown when the user clicks on the profile button. */
+.profile-menu{
+  
+  background-color:#1f2937;
+  position: absolute;
+  display:flex;
+  flex-direction: column;
+  border: #000 solid 1px;
+  right: 15px;
+  top: 42px;
+  height: auto;
+  width:250px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+  padding:10px;
+  z-index:1000;
+  opacity: 0;
+  
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.profile-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+
+#google-login img {
+    width: 15px;
+    height: 15px;
+
+}
+
+#google-login {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap:5px;
+    width:200px;
+    height:30px;
+    align-items: center;
+    border-radius:8px;
+    border:none;
+    margin-top:30px;
+    cursor:pointer;
+}   
+
+/*profile info*/
+.info1{
+display:flex;
+flex-direction:column;
+align-items: center;
+background:#4f46e5;
+color:white;
+height: 170px;
+border-radius: 10px;
+padding:10px;
+
+}
+
+/*inner image of profile */
+#image{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+  display:none;
+}
+#image.active{
+  display:block;
+}
+
+#username{
+   font-size: 13px;
+  margin-top:6px;
+
+}
+#useremail{
+  font-size: 11px;
+}
+
+.info2{
+display:flex;
+flex-direction:column;
+align-items: center;
+background: #1f2937;
+color: white;
+height: 150px;
+width:230px;
+border-radius: 10px;
+gap:10px;
+align-items: flex-start;
+padding: 30px 5px 5px;
+}
+
+.info2 button {
+  color: white;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+ width: 100%;
+  cursor: pointer;
+}
+
+/*buttons icons*/
+.info2 button svg {
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+
+}
+
+/*#inner-letter and outer-letter profile latters*/
+#outer-letter,#inner-letter{
+  display: flex;
+  align-items:center;
+  justify-content:center;
+  background-color:white;
+  color:blue;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+  font-weight:700;
+  font-size:25px;
+  position: relative;
+  top: -1px;
+  
+}
+
+#inner-letter.active{
+  display:block;
+}
+
+
+.profile{
+  display:flex;
+}
+
+/*outer image of profile */
+#profilebtn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+/*outer image of profile */
+#profilebtn img {
+  width: 100%;
+  height: 100%;
+  display:none;
+}
+
+#profilebtn img.active{
+  display:block;
+}
+
+#outer-letter.active{
+  display:block;
+}
+
+#outer-letter{
+  width: 40px;
+  height: 28px;
+  font-size: 16px;
+  align-items:center;
+  justify-content:center;
+  
+}
