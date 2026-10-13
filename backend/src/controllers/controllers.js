@@ -87,6 +87,7 @@ const passwordregex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/
 if(!passwordregex.test(password)){
 return res.status(400).send("🔐 Password must contain at least 8 characters, one letter, one number, and one special character.")
 }
+
 //regex validation function for email  
 const emailregex =/^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
 if(!emailregex.test(email)){
@@ -112,9 +113,9 @@ res.status(409).json({message:"Email already exists"});
 }
 
 const loginuser = async (req, res) => {
-const {name, email, password}  = req.body;
+const {email, password}  = req.body;
 const login =  await pool.query(`select * from users where email = $1`, [email])
-const {id:user_id , password:hashedpassword} = login.rows[0];
+const {id:user_id , password:hashedpassword, name, email: useremail} = login.rows[0];
 const compare = await bcrypt.compare(password,hashedpassword);
 console.log(compare);
 
@@ -142,7 +143,7 @@ refreshtoken = jwt.sign(payload, refresh, {expiresIn : '10d'})
 res.cookie("refreshtoken", refreshtoken, {httpOnly : true, sameSite: "lax"
 })
 console.log("Refresh cookie set");
-res.status(200).json({token})
+res.status(200).json({token, name, email: useremail})
 }
 
 const refresh = async (req, res) => {
@@ -225,6 +226,7 @@ const updateresettoken = await pool.query(`update users set reset_token = $1 whe
 const twentyminuts = 25 * 60 * 1000 
 const expirytime = new Date(Date.now() + twentyminuts)
 const expirytimedb = await pool.query(`update users set reset_token_expiry = $1 where id = $2`, [expirytime, user_id])
+
 await emailoptions(
   process.env.GMAIL_USER,
   user.email,
@@ -238,9 +240,17 @@ return res.status(200).json({
 
  // making a controller function for resetpassword
 const resetpassword = async (req, res) => {
-  const { newpassword, confirmpassword, token } = req.body;
-  const secret = process.env.JWT_FORGOT_SECRET;
+const { newpassword, confirmpassword, token } = req.body;
+//regex validation function for password useing lookahead rull(?=.* )  
 
+const passwordregex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/;
+if(!passwordregex.test(newpassword)){
+  return res.status(400).json({
+  message: "Use 8–64 characters, including uppercase and lowercase letters, a number, and a special character."
+});
+}
+
+  const secret = process.env.JWT_FORGOT_SECRET;
   try {
     // checking that required values are provided
     if (!token || !newpassword || !confirmpassword) {

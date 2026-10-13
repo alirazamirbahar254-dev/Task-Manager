@@ -1,6 +1,6 @@
 
 import jwt from "jsonwebtoken";
-//reading th token for applay verification function 
+//reading the token for applay verification function 
 const authMiddleware = (req, res, next) => {
 
 const authHeader = req.headers.authorization;

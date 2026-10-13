@@ -1,7 +1,6 @@
 // =============================
 // App State
 
-
 // =============================
 let tasks = [];
 let editcard = null;
@@ -41,10 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const boxd = document.querySelector(".boxd");
   const undobox = document.querySelector(".undo-box");
   const undobtn = document.querySelector(".undo-btn");
-  const logout = document.querySelector("#logout");
-  const profilebtn = document.querySelector("#profilebtn");
-  const profilemenu = document.querySelector(".profile-menu");
-
+ 
+  
+  
   // -----------------------------
   // Load and Save Tasks
   // -----------------------------
@@ -57,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   "content-type":"application/json",
   },
  })
+
      const data = await response.json();
 
     tasks = Array.isArray(data) ? data : [];
@@ -72,6 +71,44 @@ document.addEventListener("DOMContentLoaded", () => {
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+fetch("./profile/profile.html")
+
+  .then(response => response.text())
+  .then(html => {
+    document.querySelector("#profile-container").innerHTML = html;
+    const script = document.createElement("script");
+    script.src = "./profile/profile.js";
+    script.onload = () => {
+  lucide.createIcons();
+};
+    document.body.appendChild(script);
+  const profilebtn = document.querySelector("#profilebtn");
+  const profilemenu = document.querySelector(".profile-menu");
+ profilebtn.addEventListener("click", () => {
+  profilemenu.classList.toggle("active")
+ })
+    
+    //user logout function
+  const logout = document.querySelector("#logout");
+  logout.addEventListener("click", async() =>{
+  const response = await fetch("http://localhost:3000/auth/logout",{
+
+    method: "POST",
+    credentials: "include",
+    
+  })
+
+   if(response.ok){
+    console.log("logout successful")
+    window.location = "signin.html"
+ 
+    }
+
+  })
+
+  })
+  .catch(error => console.error("Profile load error:", error));
 
   // -----------------------------
   // Build Card UI
@@ -280,23 +317,7 @@ if (undobtn) {
       }
     });
   }
-  //user logout function
-  logout.addEventListener("click", async() =>{
-  const response = await fetch("http://localhost:3000/auth/logout",{
-
-    method: "POST",
-    credentials: "include",
-    
-  })
-
-   if(response.ok){
-    console.log("logout successful")
-    window.location = "signin.html"
- 
-    }
-
-  })
-
+  
   // -----------------------------
   // Column Collapse Handling
   // -----------------------------
@@ -626,10 +647,8 @@ return response;
     
   }
 
-  
   toggle(sortbtn, sortmenu);
   toggle(menuBtn, menu);
-  toggle(profilebtn, profilemenu);
 
   // Close open dropdowns and side menu
   document.addEventListener("click", () => {
