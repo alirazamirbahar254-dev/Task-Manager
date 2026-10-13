@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <title>Profile Settings | Task Manager</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <main class="settings-page">
+        <header class="page-header">
+            <h1>Profile Settings</h1>
+            <p>Update your profile photo and name.</p>
+        </header>
+
+        <form class="settings-card">
+            <section class="setting-section" aria-labelledby="photo-heading">
+                <div class="section-copy">
+                    <h2 id="photo-heading">Profile Photo</h2>
+                    <p>Choose a photo that represents you.</p>
+                </div>
+
+                <div class="photo-controls">
+                    <div class="avatar-placeholder" role="img" aria-label="Profile photo placeholder">
+                        <span aria-hidden="true"></span>
+                    </div>
+                    <div class="photo-actions">
+                        <button class="button button-primary" type="button">Change Photo</button>
+                        <button class="button button-remove" type="button">Remove Photo</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="setting-section name-section" aria-labelledby="name-heading">
+                <div class="section-copy">
+                    <h2 id="name-heading">Name</h2>
+                    <p>This is the name shown on your profile.</p>
+                </div>
+
+                <label class="field-label" for="profile-name">Your name</label>
+                <input
+                    class="text-input"
+                    id="profile-name"
+                    name="name"
+                    type="text"
+                    value="Alex Morgan"
+                    autocomplete="name"
+                >
+                <div class="form-actions">
+                    <button class="button button-primary" type="button">Save Changes</button>
+                </div>
+            </section>
+        </form>
+    </main>
+</body>
+</html>
