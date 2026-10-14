@@ -6,9 +6,12 @@ const profilebtn = document.querySelector("#profilebtn");
 const profilemenu = document.querySelector(".profile-menu");
 const outerletter = document.querySelector("#outer-letter");
 const profilebtnimg = document.querySelector("#profilebtn img");
+const profile = document.querySelector("#edit")
+const settings = document.querySelector("#settings")
+const logout = document.querySelector("#logout")
 
-name.textContent = localStorage.getItem("name")
-email.textContent = localStorage.getItem("email")
+ name.textContent = localStorage.getItem("name")
+ email.textContent = localStorage.getItem("email")
 
 innerletter.textContent = localStorage.getItem("name").charAt(0).toUpperCase()
 outerletter.textContent = localStorage.getItem("name").charAt(0).toUpperCase()
@@ -32,4 +35,7 @@ profilebtnimg.addEventListener("error", () => {
 profilebtnimg.classList.remove("active");
   outerletter.classList.add("active");
 })
-  
+
+profile.addEventListener("click", () => {
+window.location.href = "/frontend/profile/profile-settings/settings.html";
+})
