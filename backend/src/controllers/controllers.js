@@ -341,6 +341,29 @@ if(!passwordregex.test(newpassword)){
   }
 };
 
+//rename function
+const editname = async(req, res) => {
+try{
+const {username} = req.body;
+if(username === ""){
+return res.status(400).json({message:"please enter a name"})
+}
+const loginuser = req.loginuser.user_id;
+const update = await pool.query(`update users set name = $1 where id = $2`, [username,loginuser]);
+
+return res.status(200).json({
+  message :"your name updated successfuly"
+})
+
+}catch(error){
+return res.status(500).json({
+   message: "Failed to update username"
+})
+
+}
+}
+
+
 export { 
 
     createtask, 
@@ -354,7 +377,7 @@ export {
     logout,
     forgotpassword,
     resetpassword,
-
+    editname,
 };
 
 

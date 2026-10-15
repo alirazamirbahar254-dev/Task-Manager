@@ -12,6 +12,7 @@ import {
     logout,
     forgotpassword,
     resetpassword,
+    editname,
 } from "../controllers/controllers.js";
 
 const router = Router();
@@ -27,6 +28,7 @@ router.post("/auth/refresh", refresh );
 router.post("/auth/logout", logout);
 router.post("/auth/forgotpassword", forgotpassword);
 router.post("/auth/resetpassword", resetpassword);
+router.patch("/auth/editname", authMiddleware,editname);
 
 export default router;
 
