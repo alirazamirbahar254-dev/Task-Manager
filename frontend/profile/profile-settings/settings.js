@@ -35,7 +35,6 @@ body: JSON.stringify({username:editname.value})
 })
 
 const data = await response.json()
-
 if(!response.ok){
 
 message.textContent = data.message;

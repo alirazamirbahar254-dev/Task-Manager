@@ -86,6 +86,14 @@ fetch("./profile/profile.html")
   document.body.appendChild(script);
   const profilebtn = document.querySelector("#profilebtn");
   const profilemenu = document.querySelector(".profile-menu");
+
+  document.addEventListener("click", (e) => {
+  if (!profilebtn.contains(e.target) &&
+      !profilemenu.contains(e.target)) {
+    profilemenu.classList.remove("active");
+  }
+});
+
  profilebtn.addEventListener("click", () => {
   profilemenu.classList.toggle("active")
  })
