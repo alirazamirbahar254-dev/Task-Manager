@@ -20,5 +20,3 @@ const pool = new Pool({
 // Export the pool instance for use in other parts of the application
 export default pool;
 
-
-
