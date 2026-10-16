@@ -389,20 +389,38 @@ console.log("collapsed:", column.classList.contains("collapsed"));
     const sortmenu = document.querySelector(".sort-menu");
     if (!sortmenu) return;
 
-    sortmenu.addEventListener("click", async (e) => {
-      const type = e.target.dataset.sort;
-      if (!type) return;  
+    sortmenu.addEventListener("click", (e) => {
+      const option = e.target.closest("button[data-sort]");
+      if (!option || !sortmenu.contains(option)) return;
 
-    const response = await apifetch(`${api_base_url}/tasks?sort=${type}`,{
-     headers : {
-      "content-type" : "application/JSON",
-     },
-    
-  });
-      const data = await response.json();
-        tasks = data
-     
-   renderboard();
+      let compare;
+      switch (option.dataset.sort) {
+        case "newest":
+          compare = (a, b) => {
+            const leftId = BigInt(a.id);
+            const rightId = BigInt(b.id);
+            return leftId < rightId ? 1 : leftId > rightId ? -1 : 0;
+          };
+          break;
+        case "oldest":
+          compare = (a, b) => {
+            const leftId = BigInt(a.id);
+            const rightId = BigInt(b.id);
+            return leftId < rightId ? -1 : leftId > rightId ? 1 : 0;
+          };
+          break;
+        case "az":
+          compare = (a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: "base" });
+          break;
+        case "za":
+          compare = (a, b) => b.title.localeCompare(a.title, undefined, { sensitivity: "base" });
+          break;
+        default:
+          return;
+      }
+
+      tasks = [...tasks].sort(compare);
+      renderboard();
     });
   }
 
