@@ -1,3 +1,5 @@
+import api_base_url from "./config.js";
+
 // Get Sign Up form values 
 const signup = document.querySelector("#signup");
 const signin = document.querySelector("#signin");
@@ -19,7 +21,7 @@ if(name1 === "" || name2 === "" || email === "" || password1 === "" || password2
 
 const userdata = {  name:name1 + " " + name2, email:email, password:password1, }
 
-const response = await fetch(`http://127.0.0.1:3000/auth/register`,
+const response = await fetch(`${api_base_url}/auth/register`,
     {
     method:"POST",
 

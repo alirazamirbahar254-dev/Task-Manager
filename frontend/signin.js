@@ -1,3 +1,4 @@
+import api_base_url from "./config.js";
 const signin = document.querySelector("#signin");
 const login = document.querySelector("#login");
 const signup = document.querySelector("#signup");
@@ -15,7 +16,7 @@ try {
 
 const userdata = {email:email, password:password}
 console.log("before fetch");
-const response = await fetch(`http://127.0.0.1:3000/auth/login`,{
+const response = await fetch(`${api_base_url}/auth/login`,{
 
 method : "POST",
   credentials: "include",

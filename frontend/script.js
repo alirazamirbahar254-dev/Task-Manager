@@ -1,3 +1,5 @@
+import api_base_url from "./config.js";
+
 // =============================
 // App State
 
@@ -49,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function ks() {
   try {
-    const response = await apifetch("http://localhost:3000/tasks",{
+    const response = await apifetch(`${api_base_url}/tasks`,{
     method: "GET",
   headers : {
   "content-type":"application/json",
@@ -92,7 +94,7 @@ fetch("./profile/profile.html")
     //user logout function
   const logout = document.querySelector("#logout");
   logout.addEventListener("click", async() =>{
-  const response = await fetch("http://localhost:3000/auth/logout",{
+  const response = await fetch(`${api_base_url}/auth/logout`,{
 
     method: "POST",
     credentials: "include",
@@ -184,7 +186,7 @@ const columnid = box.closest(".column").id;
 task.columnid = columnid;
 
 try{ 
-apifetch(`http://127.0.0.1:3000/tasks/${id}`,{
+apifetch(`${api_base_url}/tasks/${id}`, {
   method: "PUT",
   headers : {
   "content-type":"application/json",
@@ -223,7 +225,7 @@ const finalizeDelete = async () => {
   if (!deletetask) return;
 
   try {
-    const response = await apifetch(`http://127.0.0.1:3000/tasks/${deletetask.id}`,
+    const response = await apifetch(`${api_base_url}/tasks/${deletetask.id}`,
       {
     
         method: "DELETE",
@@ -273,7 +275,7 @@ if (undobtn) {
 
     if (!lastdeletedtask) return;
     try {
-      const response = await apifetch("http://localhost:3000/tasks", {
+      const response = await apifetch(`${api_base_url}/tasks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -384,7 +386,7 @@ console.log("collapsed:", column.classList.contains("collapsed"));
       const type = e.target.dataset.sort;
       if (!type) return;  
 
-    const response = await apifetch(`http://127.0.0.1:3000/tasks?sort=${type}`,{
+    const response = await apifetch(`${api_base_url}/tasks?sort=${type}`,{
      headers : {
       "content-type" : "application/JSON",
      },
@@ -505,7 +507,7 @@ document.addEventListener("keydown", (e) => {
       editcard.title = input.value;
       editcard.description = description.value;
 
-      await apifetch(`http://127.0.0.1:3000/tasks/${editcard.id}`,{
+      await apifetch(`${api_base_url}/tasks/${editcard.id}`,{
         method : "PUT",
         headers : {
         "content-type":"application/json",
@@ -532,8 +534,9 @@ document.addEventListener("keydown", (e) => {
   columnid: activeColumn.id,
   completed: false,
 };
+
 try {
-  const response = await apifetch("http://localhost:3000/tasks", {
+  const response = await apifetch(`${api_base_url}/tasks`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -591,7 +594,7 @@ try {
 // Refresh access token using refresh token cookie
 const refreshtoken = async () => {
 console.log("REFRESH FUNCTION CALLED")
-const response = await fetch(`http://127.0.0.1:3000/auth/refresh`,{
+const response = await fetch(`${api_base_url}/auth/refresh`,{
 
 method:"POST",
 credentials: "include"  
@@ -599,10 +602,8 @@ credentials: "include"
 })
 
 const data = await response.json()
-console.log("REFRESH STATUS:", response.status)
 localStorage.setItem("token", data.token)
-console.log("TOKEN SAVED:", localStorage.getItem("token"))
-console.log(data)
+
 }
 
 //refresh token fuction provider for all api req
@@ -751,7 +752,7 @@ return response;
     const task = tasks.find(t => Number(t.id) === id);
     task.columnid = columnid;
     try{
-       apifetch(`http://127.0.0.1:3000/tasks/${id}`,{     
+       apifetch(`${api_base_url}/tasks/${id}`, {
       method : "PUT",
       headers: { 
         "content-type":"application/json",

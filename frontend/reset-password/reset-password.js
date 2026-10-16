@@ -1,3 +1,5 @@
+import api_base_url from "../config.js";
+
 //reading the token and filder
 const params =new URLSearchParams(window.location.search);
 const token = params.get("token");
@@ -13,7 +15,7 @@ if(newpassword !== confirmpassword) {
 return;
 }
 
-const response = await fetch("http://127.0.0.1:3000/auth/resetpassword", {
+const response = await fetch(`${api_base_url}/auth/resetpassword`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
@@ -32,4 +34,3 @@ if(response.ok) {
 }
 
 });
-
