@@ -231,7 +231,7 @@ await emailoptions(
   process.env.GMAIL_USER,
   user.email,
   "Reset Your Password",
-  `Reset your password here: http://127.0.0.1:5500/frontend/reset-password/reset-password.html?token=${forgottoken}`
+  `Reset your password here: ${process.env.FRONTEND_URL}/reset-password/reset-password.html?token=${forgottoken}`
 );
 return res.status(200).json({
   message: "Reset link sent successfully."
