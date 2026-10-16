@@ -114,7 +114,6 @@ padding:15px
   transition: background-color var(--ease), border-color var(--ease);
 }
 
-
 /* Search input shown when the user opens the navigation search field. */
 #search.active{
     display: flex;
@@ -313,15 +312,17 @@ width:300px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  gap: 16px;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  
+  justify-content: center;
+  gap: 20px;
+  padding: 26px 12px;
+  max-width: 1600px;
 }
+
 #box1, #box2, #box3, #box4{
    background: var(--surface);
+    max-width: 330px;
 }
+
 .section:has(.column.collapsed) {
   justify-content: flex-start;
   gap: 6px;
@@ -405,6 +406,7 @@ width:300px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
+  
 }
 
 .collapse-btn:hover {

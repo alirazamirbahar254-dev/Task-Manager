@@ -43,8 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const undobox = document.querySelector(".undo-box");
   const undobtn = document.querySelector(".undo-btn");
  
-  
-  
   // -----------------------------
   // Load and Save Tasks
   // -----------------------------
@@ -84,7 +82,8 @@ fetch("./profile/profile.html")
     script.onload = () => {
   lucide.createIcons();
 };
-    document.body.appendChild(script);
+
+  document.body.appendChild(script);
   const profilebtn = document.querySelector("#profilebtn");
   const profilemenu = document.querySelector(".profile-menu");
  profilebtn.addEventListener("click", () => {
@@ -110,6 +109,7 @@ fetch("./profile/profile.html")
   })
 
   })
+
   .catch(error => console.error("Profile load error:", error));
 
   // -----------------------------
@@ -213,7 +213,6 @@ renderboard();
       boxd.classList.remove("active");
     });
   }
-
 
 //Delete confirmation */
 
@@ -437,6 +436,7 @@ console.log("collapsed:", column.classList.contains("collapsed"));
 
     updateCounts();
   }
+
   // -----------------------------
   // Add and Edit Modal Flow
   // -----------------------------
@@ -696,7 +696,6 @@ return response;
     syncCollapseIcon(button, box);
   });
 
-  
   dropzoone();
   updateCounts();
   collapse();
