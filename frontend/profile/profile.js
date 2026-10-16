@@ -37,5 +37,9 @@ profilebtnimg.classList.remove("active");
 })
 
 profile.addEventListener("click", () => {
-window.location.href = "/frontend/profile/profile-settings/settings.html";
-})
+  const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+  window.location.href = isLocal
+    ? "/frontend/profile/profile-settings/settings.html"
+    : "/profile/profile-settings/settings.html";
+});

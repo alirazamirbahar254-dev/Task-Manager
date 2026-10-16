@@ -7,12 +7,10 @@ const editname = document.querySelector("#edit-text");
 const message = document.querySelector("#message");
 const nameicon = document.querySelector("#name-icon");
 
-
 const token1 = localStorage.getItem("token");
 editname.value = localStorage.getItem("name").charAt(0).toUpperCase() + localStorage.getItem("name").slice(1);
 username.textContent = localStorage.getItem("name").charAt(0).toUpperCase() + localStorage.getItem("name").slice(1);
 useremail.textContent=localStorage.getItem("email")
-
 
 username.addEventListener("click", () => {
 editname.classList.add("active");
