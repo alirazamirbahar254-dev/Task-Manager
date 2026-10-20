@@ -10,7 +10,10 @@ CREATE TABLE users (
     last_refresh TIMESTAMP,
     session_start TIMESTAMP,
     reset_token TEXT,
-    reset_token_expiry TIMESTAMP
+    reset_token_expiry TIMESTAMP,
+    profile_image BYTEA,
+    profile_image_type TEXT,
+
 );
 
 -- =========================

@@ -363,6 +363,49 @@ return res.status(500).json({
 }
 }
 
+// Update the logged-in user's profile picture
+const profile_image = async(req, res) => {
+
+  try{ 
+// Check if image was uploaded
+  if(!req.file){
+  return res.status(400).json({message: "Please select an image"})
+  }
+ const image = req.file.buffer
+ const imagetype = req.file.mimetype
+ const user = req.loginuser.user_id;
+
+ const update = await pool.query(`update users set profile_image =$1, profile_image_type =$2 where id = $3`,[image,imagetype,user]);
+
+return res.status(200).json({
+  message: "your Profile Picture updated successfuly"
+})
+  
+}catch(error){
+return res.status(500).json({
+ message: "Failed to update your profile picture"
+
+})
+}
+}
+
+const getprofile_image = async(req, res) => {
+const user = req.loginuser.user_id
+
+const get = await pool.query(`select profile_image, profile_image_type from users where id = $1`,[user]);
+const dbresult = get.rows[0]
+
+if(!dbresult.profile_image){
+return res.status(400).json({
+  message :"undefine user picture"
+})
+}
+return res.type(dbresult.profile_image_type).send(dbresult.profile_image)
+
+}
+
+
+
 
 export { 
 
@@ -378,6 +421,9 @@ export {
     forgotpassword,
     resetpassword,
     editname,
+    profile_image,
+    getprofile_image,
+
 };
 
 

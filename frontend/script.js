@@ -1,5 +1,5 @@
 import api_base_url from "./config.js";
-
+import { loadProfileImage } from "./profileimage.js";
 // =============================
 // App State
 
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const boxd = document.querySelector(".boxd");
   const undobox = document.querySelector(".undo-box");
   const undobtn = document.querySelector(".undo-btn");
- 
+
   // -----------------------------
   // Load and Save Tasks
   // -----------------------------
@@ -78,12 +78,16 @@ fetch("./profile/profile.html")
   .then(html => {
     document.querySelector("#profile-container").innerHTML = html;
     const script = document.createElement("script");
+    script.type = "module";
     script.src = "./profile/profile.js";
+
     script.onload = () => {
-  lucide.createIcons();
+    lucide.createIcons();
+    loadProfileImage();
 };
 
   document.body.appendChild(script);
+ 
   const profilebtn = document.querySelector("#profilebtn");
   const profilemenu = document.querySelector(".profile-menu");
 
@@ -275,7 +279,6 @@ const finalizeDelete = async () => {
   }
 
   /* Restore deleted card */
-
 if (undobtn) {
   undobtn.addEventListener("click", async () => {
     clearTimeout(undoTimer);

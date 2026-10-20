@@ -1,5 +1,8 @@
-
 import jwt from "jsonwebtoken";
+
+import multer from "multer";
+const upload = multer({storage:multer.memoryStorage()})
+
 //reading the token for applay verification function 
 const authMiddleware = (req, res, next) => {
 
@@ -28,7 +31,7 @@ next()
 }
 
 export default authMiddleware;
-
+export  {upload}
 
 
 

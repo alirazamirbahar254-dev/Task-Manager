@@ -1,6 +1,8 @@
 import { Router } from "express";
+import {upload} from "../middleware/authMiddleware.js"
 import authMiddleware from "../middleware/authMiddleware.js";
 import {
+
     createtask,
     getAllTasks,
     getTask,
@@ -13,6 +15,9 @@ import {
     forgotpassword,
     resetpassword,
     editname,
+    profile_image,
+    getprofile_image,
+
 } from "../controllers/controllers.js";
 
 const router = Router();
@@ -29,6 +34,8 @@ router.post("/auth/logout", logout);
 router.post("/auth/forgotpassword", forgotpassword);
 router.post("/auth/resetpassword", resetpassword);
 router.patch("/auth/editname", authMiddleware,editname);
+router.post("/auth/profile_image", authMiddleware,upload.single("image"),profile_image);
+router.get("/auth/getprofile_image", authMiddleware, getprofile_image);
 
 export default router;
 

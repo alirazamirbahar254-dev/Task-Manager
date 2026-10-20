@@ -22,20 +22,23 @@
                     <h2 id="photo-heading">Profile Photo</h2>
                     <p>Choose a photo that represents you.</p>
                 </div>
-            
+
                 <div class="photo-controls">
                 <div class="avatar-wrapper">
-                    <div id="icon-box"><i data-lucide="pencil" id="edit-icon"></i></div>
-                    <div class="avatar-placeholder" role="img" aria-label="Profile photo placeholder">
-                    <span aria-hidden="true"></span>
-                    </div>
+                <div class="info">
+                <div id="icon-box"><i data-lucide="pencil" id="edit-icon"></i></div>
+                <img src="" data-profile-img alt="profile" id="image">
+                <input type="file" id="image-input" accept="image/*" hidden>
+                <span id="letter"></span>
+                    <!-- <div class="avatar-placeholder" role="img" aria-label="Profile photo placeholder">
+                    <span aria-hidden="true"></span> -->
+                    <!-- </div> -->
                     </div>
 
                 <div class="edit">
                 <input type="text" id="edit-text">
                 <i data-lucide="pencil" id="name-icon"></i>
                 <span id="normal-text"></span>
-        
                 <span id="email"></span>
                 <div class="message">
                 <span id="message"></span>
@@ -48,3 +51,9 @@
     <script type="module" src="settings.js"></script>
 </body>
 </html>
+
+
+
+
+
+

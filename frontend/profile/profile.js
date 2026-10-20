@@ -1,7 +1,9 @@
+import { loadProfileImage } from "../profileimage.js";
+
 const name = document.querySelector("#username");
 const email = document.querySelector("#useremail");
 const innerletter = document.querySelector("#inner-letter");
-const image = document.querySelector("#image");
+const image = document.querySelector("#nav-image");
 const profilebtn = document.querySelector("#profilebtn");
 const profilemenu = document.querySelector(".profile-menu");
 const outerletter = document.querySelector("#outer-letter");
@@ -18,7 +20,7 @@ outerletter.textContent = localStorage.getItem("name").charAt(0).toUpperCase()
 
 image.addEventListener("load", () => {
 image.classList.add("active");
-  innerletter.classList.remove("active");
+innerletter.classList.remove("active");
 })
 
 image.addEventListener("error", () => {
