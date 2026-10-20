@@ -193,6 +193,17 @@ body {
   display:block;
 }
 
+#remove-image{
+    margin-top:10px;
+    padding:6px 12px;
+    border:1px solid var(--color-border);
+    border-radius:6px;
+    background:var(--color-surface);
+    color:var(--color-text);
+    font:inherit;
+    cursor:pointer;
+}
+
 #edit-text{
     border: 1px solid transparent;
     border-radius: 5px;

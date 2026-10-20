@@ -92,5 +92,3 @@ message.textContent = data.message;
 message.textContent = data.message
 }
 })
-
-
