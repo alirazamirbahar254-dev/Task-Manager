@@ -17,6 +17,7 @@ import {
     editname,
     profile_image,
     getprofile_image,
+    remove_profile_image,
 
 } from "../controllers/controllers.js";
 
@@ -36,7 +37,7 @@ router.post("/auth/resetpassword", resetpassword);
 router.patch("/auth/editname", authMiddleware,editname);
 router.post("/auth/profile_image", authMiddleware,upload.single("image"),profile_image);
 router.get("/auth/getprofile_image", authMiddleware, getprofile_image);
+router.delete("/auth/profile_image", authMiddleware, remove_profile_image);
 
 export default router;
-
 

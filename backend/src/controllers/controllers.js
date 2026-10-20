@@ -404,6 +404,20 @@ return res.type(dbresult.profile_image_type).send(dbresult.profile_image)
 
 }
 
+const remove_profile_image = async(req, res) => {
+try{
+ const user = req.loginuser.user_id;
+ await pool.query(`update users set profile_image = null, profile_image_type = null where id = $1`,[user]);
+
+ return res.status(200).json({
+  message: "your Profile Picture was removed successfully"
+ })
+}catch(error){
+ return res.status(500).json({
+  message: "Failed to remove your profile picture"
+ })
+}
+}
 
 
 
@@ -423,8 +437,8 @@ export {
     editname,
     profile_image,
     getprofile_image,
+    remove_profile_image,
 
 };
-
 
 
