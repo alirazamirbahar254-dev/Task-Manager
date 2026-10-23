@@ -23,3 +23,7 @@ profile.addEventListener("click", () => {
     ? "/frontend/profile/profile-settings/settings.html"
     : "/profile/profile-settings/settings.html";
 });
+
+settings.addEventListener("click", () => {
+window.location.href = "/frontend/profile/Account-settings/Account.html";
+})

@@ -18,6 +18,7 @@ import {
     profile_image,
     getprofile_image,
     remove_profile_image,
+    verifyemail,
 
 } from "../controllers/controllers.js";
 
@@ -38,6 +39,7 @@ router.patch("/auth/editname", authMiddleware,editname);
 router.post("/auth/profile_image", authMiddleware,upload.single("image"),profile_image);
 router.get("/auth/getprofile_image", authMiddleware, getprofile_image);
 router.delete("/auth/profile_image", authMiddleware, remove_profile_image);
+router.post("/auth/verifyemail", authMiddleware, verifyemail)
 
 export default router;
 

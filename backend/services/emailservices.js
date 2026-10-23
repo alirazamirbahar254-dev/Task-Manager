@@ -29,6 +29,8 @@ const info = await transport.sendMail(options);
 console.log("Email sent successfully! Message ID:", info.messageId);
 }catch(error){
     console.error("Error occurred:", error);
+    throw error;
+    
 }
 }
 

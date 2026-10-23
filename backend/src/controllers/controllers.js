@@ -1,5 +1,9 @@
 import pool from "../db.js";
+// bcrypt passwords ko hash karke securely store karne ke liye use hota hai,
 import bcrypt from "bcrypt";
+
+// crypto for generating random password js build in 
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { emailoptions } from "../../services/emailservices.js";
 
@@ -212,7 +216,7 @@ const forgotpassword = async(req, res)=>{
  const {email} = req.body
  const forgotpassword = await  pool.query(`select * from users where email = $1`,[email])
  const user = forgotpassword.rows[0]
- if(user === undefined){
+ if(!user){
     return res.status(404).send({
     message:"user is undefined"
     })
@@ -228,11 +232,12 @@ const expirytime = new Date(Date.now() + twentyminuts)
 const expirytimedb = await pool.query(`update users set reset_token_expiry = $1 where id = $2`, [expirytime, user_id])
 
 await emailoptions(
-  process.env.GMAIL_USER,
-  user.email,
+   process.env.GMAIL_USER,
+   user.email,
   "Reset Your Password",
   `Reset your password here: ${process.env.FRONTEND_URL}/reset-password/reset-password.html?token=${forgottoken}`
 );
+
 return res.status(200).json({
   message: "Reset link sent successfully."
 });
@@ -307,14 +312,7 @@ if(!passwordregex.test(newpassword)){
 
     // updating the password and clearing the reset token
     await pool.query(
-      `UPDATE users
-       SET password = $1,
-           reset_token = NULL,
-           reset_token_expiry = NULL
-       WHERE id = $2`,
-      [hashedpassword, user_id]
-    );
-
+      `UPDATE users SET password = $1, reset_token = NULL, reset_token_expiry = NULL WHERE id = $2`, [hashedpassword, user_id]);
     // sending the success response
     return res.status(200).json({
       message: "Password reset successful"
@@ -419,6 +417,43 @@ try{
 }
 }
 
+const verifyemail = async(req, res) => {
+try{
+const user = req.loginuser.user_id;
+const get = await pool.query(`select email from users where id = $1`,[user]);
+const dbase = get.rows[0].email
+// generating rendom code
+const otp = crypto.randomInt(100000, 1000000)
+
+await emailoptions(
+   process.env.GMAIL_USER,
+   dbase,
+  "Verify Your Email",
+  `Your verification code is: ${otp}`
+);
+
+
+if(!dbase.email){
+  return res.status(500).json({
+  message : " Faild to send code"
+})
+}
+
+
+
+
+
+
+
+
+
+}catch (error){
+  return res.status(200).json({
+    message : "failed to send code"
+  })
+}
+
+}
 
 
 export { 
@@ -438,7 +473,7 @@ export {
     profile_image,
     getprofile_image,
     remove_profile_image,
-
+    verifyemail,
 };
 
 
