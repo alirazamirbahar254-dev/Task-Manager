@@ -28,7 +28,7 @@
     user-select: none;
     border-radius: 10px;
     box-shadow:  0 4px 3px 0 rgba(0,0, 0,0.10);
-   
+    user-select: none;
 
 }
 .options{
@@ -113,11 +113,23 @@ input::placeholder {
 }
 
 #verify-self-btn{
-    
     color:white;
     background:blue;
     border-radius: 10px;
     box-shadow:  0 4px 3px 0 rgba(0,0, 0,0.10);
     width:100%;
     border:none;
+    cursor:pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+#verify-self-btn:hover{
+  background-color: #1717B8;
+  transition: background-color 0.4s ease;
+}
+
+#email_mask {
+    display: block;
+    margin-left: 8px;
 }

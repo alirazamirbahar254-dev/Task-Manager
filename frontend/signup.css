@@ -41,6 +41,7 @@ fieldset{
     border: none;
     gap:10px;
     padding:20px;
+
 }
 
 .groups-container{
@@ -165,7 +166,7 @@ margin-top: 5px;
   align-items: center;
   justify-content: center;
   align-self: center;
-  background-color: #1E1EE0;
+  background-color: blue;
   color: #FFFFFF;
   border: none;
   cursor: pointer;
