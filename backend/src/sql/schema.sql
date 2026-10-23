@@ -13,6 +13,8 @@ CREATE TABLE users (
     reset_token_expiry TIMESTAMP,
     profile_image BYTEA,
     profile_image_type TEXT,
+    email_verification_otp VARCHAR(6) 
+    email_verification_expires TIMESTAMPTZ 
 
 );
 
