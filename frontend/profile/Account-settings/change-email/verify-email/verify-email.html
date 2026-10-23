@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email|Change Email|Account Settings</title>
+
+    <link rel="stylesheet" href="verify-email.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+<body>
+
+<div class="main_container">
+<fieldset>
+<div class="options">
+
+<div>
+<h2>Verify your new email</h2>
+<p>We've sent a verification code to your new email address.</p>
+</div>
+
+<div class="otp_container">
+<div class="otp">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+</div>
+
+<div id="text">
+Didn't receive the code? Resend code
+</div>
+</div>
+
+<div id="verify">
+<button type="button" id="verify-btn" >Verify & Update Email</button>
+</div>
+
+</div>
+</fieldset>
+</div>
+<script>
+  lucide.createIcons();
+</script>
+</body>
+<script type="module" src="verify-email.js"></script>
+</html>

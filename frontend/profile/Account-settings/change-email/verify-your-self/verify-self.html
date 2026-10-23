@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>verify-self|Verify Email|Change Email</title>
+
+    <link rel="stylesheet" href="verify-self.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+<body>
+
+<div class="main_container">
+<fieldset>
+<div class="options">
+
+<div>
+<h2>Verify Your Self</h2>
+<p>We've sent a verification code to: <span id="email_mask">al****@gmail.com</span></p>
+</div>
+
+<div class="otp_container">
+<div class="otp">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input maxlength="1" inputmode="numeric" placeholder="–">
+</div>
+
+<div id="text">
+Didn't receive the code? Resend code.
+</div>
+</div>
+
+<div id="verify-self">
+<button type="button" id="verify-self-btn" >Verify Your Self</button>
+</div>
+
+</div>
+</fieldset>
+</div>
+<script>
+  lucide.createIcons();
+</script>
+</body>
+<script type="module" src="verify-self.js"></script>
+</html>

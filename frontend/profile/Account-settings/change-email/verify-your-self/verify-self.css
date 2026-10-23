@@ -1,0 +1,123 @@
+:root {
+    color-scheme: light;
+    --color-text: #20212a;
+    --color-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-background: #f7f8fa;
+    --color-surface: #ffffff;
+    --radius-card: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* full_page container  */
+.main_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #F7F7F9;
+    font-family: 'Poppins', sans-serif;
+    flex-direction:column;
+    user-select: none;
+    border-radius: 10px;
+    box-shadow:  0 4px 3px 0 rgba(0,0, 0,0.10);
+   
+
+}
+.options{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+    padding:10px;
+    width: 100%;
+    padding:10px;
+}
+
+fieldset{
+    display:flex;
+    flex-direction:column;
+    padding:15px;
+    width: min(450px, 100%);
+    border:none;
+    box-shadow:  0 4px 3px 0 rgba(0,0, 0,0.10);
+    background-color:#FFFFFF;
+    border-radius:20px;
+    
+}
+
+h2{
+    
+    display: flex;
+    justify-content: center;
+    font-weight:500;
+    font-size: 25px;
+    line-height: 1.3;
+    
+}
+
+p{
+    display: flex;
+    justify-content: center;
+    font-weight:500;
+    font-size: 13px;
+    line-height: 1.3;
+    
+}
+
+.otp_container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap:10px;
+}
+
+.otp { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+   
+}
+
+.otp input {
+    width: 44px;
+    height: 52px;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 50%;
+    border: 1px solid #1E1EE0;
+    background:whitesmoke;
+    outline: none;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
+input::placeholder {
+    font-size: 24px;
+}
+
+
+#verify-self{
+    display:flex;
+    justify-content: center;
+    height:50px;
+    width:100%;
+}
+
+#verify-self-btn{
+    
+    color:white;
+    background:blue;
+    border-radius: 10px;
+    box-shadow:  0 4px 3px 0 rgba(0,0, 0,0.10);
+    width:100%;
+    border:none;
+}
