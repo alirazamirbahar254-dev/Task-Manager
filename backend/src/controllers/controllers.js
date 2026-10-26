@@ -500,7 +500,6 @@ try{
 const email = req.body.email;
 const id = req.loginuser.user_id 
 
-
 if(!email){
 return res.status(400).json({
   message : "undefined email"
@@ -523,33 +522,43 @@ if (db.rows.length === 0) {
 
 const dbemail = db.rows[0].email
 
+if(!dbemail){
+  return res.status(500).json({
+  message : " Faild to send code"
+})
+}
+
 const otp = crypto.randomInt(100000, 1000000)
 const expiry = new Date(Date.now() + 5 * 60 * 1000);
 
+const saveotp = await pool.query(`update users set new_email = $1, new_email_otp = $2, new_email_otp_expiry = $3 where id = $4` 
+  [email, otp, expiry, id]
+)
 
 
 
+await emailoptions(
+   process.env.GMAIL_USER,
+   email,
+  "Verify Your Email",
+  `Your verification code is: ${otp}`
+);
 
-
-
-
-
-
-
-
-
-const emailregex =/^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
-if(!emailregex.test(email)){
-return res.status(400).json({ 
-  message : "Please enter a valid 📧 Email address"})
-
-}else{
-
-const response = await pool.query(`update users set email = $1 where id = $2 `,[email, id]); 
 return res.status(200).json({
-  message : "Email Updated Successfully"
+  message : "code sended on your email "
 })
-}
+// const emailregex =/^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+// if(!emailregex.test(email)){
+// return res.status(400).json({ 
+//   message : "Please enter a valid 📧 Email address"})
+
+// }else{
+
+// const response = await pool.query(`update users set email = $1 where id = $2 `,[email, id]); 
+// return res.status(200).json({
+//   message : "Email Updated Successfully"
+// })
+// }
 }catch (error){
   return res.status(500).json({
     message: "Internal server error"
