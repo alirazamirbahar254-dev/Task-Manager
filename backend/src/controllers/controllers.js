@@ -460,6 +460,7 @@ return res.status(200).json({
 }
 
 const verifyotp = async(req, res) => {
+  
   try{ 
   const otp = req.body.otp
   const user = req.loginuser.user_id
@@ -467,6 +468,9 @@ const verifyotp = async(req, res) => {
   const database = dbotp.rows[0].email_verification_expires
   const databaseotp = dbotp.rows[0].email_verification_otp
   const currenttime = new Date(Date.now())
+  // return res.status(400).json({ message: "TEST CONTROLLER" });
+  console.log("User OTP:", otp);
+  console.log("Database OTP:", databaseotp);
 
 if(otp !== databaseotp){
   return res.status(400).json({
@@ -491,7 +495,6 @@ return res.status(500).json({
   message :"Internal server error"
   })
 }
-
 }
 
 export { 

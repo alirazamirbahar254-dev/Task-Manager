@@ -206,6 +206,7 @@ apifetch(`${api_base_url}/tasks/${id}`, {
 
   body : JSON.stringify(task)
 })
+
 }catch(error){
   console.error("update api failed", error)
 }
