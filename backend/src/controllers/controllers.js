@@ -449,7 +449,7 @@ await emailoptions(
 );
 
 return res.status(200).json({
-  message : "code sended on your email"
+  message : "code sended on your email "
 })
 
 }catch (error){
@@ -479,11 +479,11 @@ return res.status(400).json({
   message : "OTP expired"
 })
 }
+
 const cleardb = await pool.query(`update users set  email_verification_otp = $1, email_verification_expires = $2 where id =$3`,[null, null, user] )
 return res.status(200).json({
   message : "OTP verified successfully"
 })
-
 
 }catch(error){
   console.error(error)

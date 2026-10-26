@@ -133,3 +133,24 @@ input::placeholder {
     display: block;
     margin-left: 8px;
 }
+
+.message{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    align-items: center;
+    
+}
+
+#message{
+    display:flex;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+.success-message{
+color:green;
+}
+.error-message{
+color:red;
+}
