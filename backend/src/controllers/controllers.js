@@ -175,10 +175,6 @@ const sessiondifference = Date.now() - new Date(session_start).getTime()
 const thirtydays = 30 * 24 * 60 * 60 * 1000
 const tendays = 10 * 24 * 60 * 60 * 1000
 
-console.log("LAST REFRESH:", lastrefresh)
-console.log("DIFFERENCE:", difference)
-console.log("SESSION DIFFERENCE:", sessiondifference)
-
 if(sessiondifference > thirtydays){
     return res.status(401).json({
         message:"Session expired, please login again"
@@ -410,6 +406,7 @@ try{
  return res.status(200).json({
   message: "your Profile Picture was removed successfully"
  })
+
 }catch(error){
  return res.status(500).json({
   message: "Failed to remove your profile picture"
@@ -419,11 +416,30 @@ try{
 
 const verifyemail = async(req, res) => {
 try{
+
 const user = req.loginuser.user_id;
 const get = await pool.query(`select email from users where id = $1`,[user]);
+
+if (get.rows.length === 0) {
+  return res.status(404).json({
+    message: "User not found"
+  });
+}
+
 const dbase = get.rows[0].email
+
 // generating rendom code
 const otp = crypto.randomInt(100000, 1000000)
+const expiry = new Date(Date.now() + 5 * 60 * 1000);
+
+const saveotp =  await pool.query(`update users set email_verification_otp = $1, email_verification_expires = $2
+where id = $3`, [otp, expiry, user])
+
+if(!dbase){
+  return res.status(500).json({
+  message : " Faild to send code"
+})
+}
 
 await emailoptions(
    process.env.GMAIL_USER,
@@ -432,29 +448,51 @@ await emailoptions(
   `Your verification code is: ${otp}`
 );
 
-
-if(!dbase.email){
-  return res.status(500).json({
-  message : " Faild to send code"
+return res.status(200).json({
+  message : "code sended on your email"
 })
-}
-
-
-
-
-
-
-
-
 
 }catch (error){
-  return res.status(200).json({
+  return res.status(500).json({
     message : "failed to send code"
+  })
+}
+}
+
+const verifyotp = async(req, res) => {
+  try{ 
+  const otp = req.body.otp
+  const user = req.loginuser.user_id
+  const dbotp = await pool.query(`select email_verification_otp, email_verification_expires from users  where id =$1`, [user])
+  const database = dbotp.rows[0].email_verification_expires
+  const databaseotp = dbotp.rows[0].email_verification_otp
+  const currenttime = new Date(Date.now())
+
+if(otp !== databaseotp){
+  return res.status(400).json({
+    message : "Invalid OTP"
+  })
+}
+
+if(currenttime > database ){
+return res.status(400).json({
+  message : "OTP expired"
+})
+}
+const cleardb = await pool.query(`update users set  email_verification_otp = $1, email_verification_expires = $2 where id =$3`,[null, null, user] )
+return res.status(200).json({
+  message : "OTP verified successfully"
+})
+
+
+}catch(error){
+  console.error(error)
+return res.status(500).json({
+  message :"Internal server error"
   })
 }
 
 }
-
 
 export { 
 
@@ -474,6 +512,7 @@ export {
     getprofile_image,
     remove_profile_image,
     verifyemail,
+    verifyotp,
 };
 
 
