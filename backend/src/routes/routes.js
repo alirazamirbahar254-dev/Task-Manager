@@ -20,6 +20,7 @@ import {
     remove_profile_image,
     verifyemail,
     verifyotp,
+    change_email,
 
 } from "../controllers/controllers.js";
 
@@ -40,8 +41,8 @@ router.patch("/auth/editname", authMiddleware,editname);
 router.post("/auth/profile_image", authMiddleware,upload.single("image"),profile_image);
 router.get("/auth/getprofile_image", authMiddleware, getprofile_image);
 router.delete("/auth/profile_image", authMiddleware, remove_profile_image);
-router.post("/auth/verifyemail", authMiddleware, verifyemail)
-router.post("/auth/verifyotp", authMiddleware, verifyotp)
-
+router.post("/auth/verifyemail", authMiddleware, verifyemail);
+router.post("/auth/verifyotp", authMiddleware, verifyotp);
+router.post("/auth/change_email", authMiddleware, change_email)
 export default router;
 

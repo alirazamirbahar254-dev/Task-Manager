@@ -426,6 +426,7 @@ if (get.rows.length === 0) {
   });
 }
 
+
 const dbase = get.rows[0].email
 
 // generating rendom code
@@ -468,10 +469,7 @@ const verifyotp = async(req, res) => {
   const database = dbotp.rows[0].email_verification_expires
   const databaseotp = dbotp.rows[0].email_verification_otp
   const currenttime = new Date(Date.now())
-  // return res.status(400).json({ message: "TEST CONTROLLER" });
-  console.log("User OTP:", otp);
-  console.log("Database OTP:", databaseotp);
-
+ 
 if(otp !== databaseotp){
   return res.status(400).json({
     message : "Invalid OTP"
@@ -490,11 +488,74 @@ return res.status(200).json({
 })
 
 }catch(error){
-  console.error(error)
 return res.status(500).json({
   message :"Internal server error"
   })
 }
+
+}
+
+const change_email = async(req, res) => {
+try{ 
+const email = req.body.email;
+const id = req.loginuser.user_id 
+
+
+if(!email){
+return res.status(400).json({
+  message : "undefined email"
+})
+}
+
+if(!id){
+  return res.status(400).json({
+  message : "undefined user_id"
+})
+}
+
+const db = await pool.query(`select email from users where id = $1`, [id])
+
+if (db.rows.length === 0) {
+  return res.status(404).json({
+    message: "User not found"
+  });
+}
+
+const dbemail = db.rows[0].email
+
+const otp = crypto.randomInt(100000, 1000000)
+const expiry = new Date(Date.now() + 5 * 60 * 1000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+const emailregex =/^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+if(!emailregex.test(email)){
+return res.status(400).json({ 
+  message : "Please enter a valid 📧 Email address"})
+
+}else{
+
+const response = await pool.query(`update users set email = $1 where id = $2 `,[email, id]); 
+return res.status(200).json({
+  message : "Email Updated Successfully"
+})
+}
+}catch (error){
+  return res.status(500).json({
+    message: "Internal server error"
+  });
+}
+
 }
 
 export { 
@@ -516,6 +577,7 @@ export {
     remove_profile_image,
     verifyemail,
     verifyotp,
+    change_email,
 };
 
 

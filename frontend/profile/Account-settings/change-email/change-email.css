@@ -16,7 +16,7 @@
 
 /* full_page container  */
 .main_container {
-    display: flex;
+     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -28,6 +28,7 @@
     user-select: none;
     border-radius: 10px;
     box-shadow:  0 4px 3px 0 rgba(0,0, 0,0.10);
+    user-select: none;
 
 }
 
@@ -39,12 +40,13 @@
     width: 100%;
     
 }
+
 .message{
     display:flex;
     flex-direction:column;
     gap:20px;
     align-items: center;
-    
+    width: 100%;
 }
 
 #message{
@@ -60,7 +62,6 @@ color:green;
 .error-message{
 color:red;
 }
-
 
 fieldset{
     display:flex;

@@ -1,6 +1,5 @@
 
 let messageTimer;
-
 function showMessage(text, className) {
   message.textContent = text;
   message.classList.remove("success-message", "error-message");
@@ -12,3 +11,5 @@ function showMessage(text, className) {
     message.classList.remove("success-message", "error-message");
   }, 5000);
 }
+
+export default showMessage;

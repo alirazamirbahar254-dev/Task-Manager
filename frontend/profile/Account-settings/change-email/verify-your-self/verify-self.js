@@ -1,4 +1,5 @@
 import api_base_url from "../../../../config.js";
+import showMessage from "../../../../messages.js";
 document.addEventListener("DOMContentLoaded", () => {
     verifyemail();
 })
@@ -58,7 +59,7 @@ const response = await fetch(`${api_base_url}/auth/verifyotp`,{
     body : JSON.stringify({otp})
 })
     const data = await response.json();
-    console.log("Response:", response.status, data);
+    
     if(!response.ok){
         showMessage(data.message, "error-message");
 
