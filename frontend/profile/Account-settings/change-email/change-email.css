@@ -39,6 +39,28 @@
     width: 100%;
     
 }
+.message{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    align-items: center;
+    
+}
+
+#message{
+    display:flex;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    min-height: 24px;
+}
+
+.success-message{
+color:green;
+}
+.error-message{
+color:red;
+}
+
 
 fieldset{
     display:flex;
