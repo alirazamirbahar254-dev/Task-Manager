@@ -104,6 +104,21 @@ input::placeholder {
     font-size: 24px;
 }
 
+#text{
+ font-family: 'Poppins', sans-serif;
+ font-weight: 400;
+ font-size: 14px;
+}
+
+#resendbtn{
+    background:none;
+    border:none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    margin-left:5px;
+    cursor:pointer;
+}
 
 #verify-self{
     display:flex;
@@ -146,6 +161,7 @@ input::placeholder {
     display:flex;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
+    min-height: 24px;
 }
 
 .success-message{

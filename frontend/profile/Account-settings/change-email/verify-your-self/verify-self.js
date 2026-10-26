@@ -9,6 +9,9 @@ const lemail = localStorage.getItem("email");
 const message = document.querySelector("#message");
 const inputs = document.querySelectorAll(".otp-input");
 const verifybtn = document.querySelector("#verify-self-btn");
+const resendbtn = document.querySelector("#resendbtn");
+
+
 const token = localStorage.getItem("token");
 
 // Masking to the email
@@ -30,18 +33,18 @@ const response  = await fetch(`${api_base_url}/auth/verifyemail`,{
 
  const data = await response.json()
  if(!response.ok){
-  message.textContent = data.message;
-  message.classList.add("error-message")
+ 
+  showMessage(data.message, "error-message");
 
  }else{
-
-  message.textContent = data.message
-  message.classList.add("success-message")
+  showMessage(data.message, "success-message");
  }
 
 }
 
+resendbtn.addEventListener("click", verifyemail);
 verifybtn.addEventListener("click", async() => {
+verifybtn.disabled = true;
 const otp = [...inputs].map(input => input.value).join("")
 try{ 
 const response = await fetch(`${api_base_url}/auth/verifyotp`,{
@@ -57,21 +60,32 @@ const response = await fetch(`${api_base_url}/auth/verifyotp`,{
     const data = await response.json();
     console.log("Response:", response.status, data);
     if(!response.ok){
-        message.textContent = data.message
-        message.classList.add("error-message")
+        showMessage(data.message, "error-message");
 
     }else{
-        message.textContent = data.message
-        message.classList.add("success-message")
+        showMessage(data.message, "success-message");
+        verifybtn.disabled = true;
         window.location.href = "../change-email.html";
     }
  
 }catch (error){
     console.log("failed to verify")
+    verifybtn.disabled = true;
 }
 
 })
 
 
+let messageTimer;
 
+function showMessage(text, className) {
+  message.textContent = text;
+  message.classList.remove("success-message", "error-message");
+  message.classList.add(className);
 
+  clearTimeout(messageTimer);
+  messageTimer = setTimeout(() => {
+    message.textContent = "";
+    message.classList.remove("success-message", "error-message");
+  }, 5000);
+}
