@@ -25,5 +25,5 @@ profile.addEventListener("click", () => {
 });
 
 settings.addEventListener("click", () => {
-window.location.href = "/frontend/profile/Account-settings/Account.html";
+window.location.href = "/profile/Account-settings/Account.html";
 })
