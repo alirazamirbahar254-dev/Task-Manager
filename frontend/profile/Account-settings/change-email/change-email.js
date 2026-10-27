@@ -35,7 +35,11 @@ if(!response.ok){
     
 }else{
     showMessage(data.message, "success-message");
-    window.location.href = "/frontend/profile/Account-settings/change-email/verify-email/verify-email.html";
+    const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  
+window.location.href = isLocal
+    ? "/frontend/profile/Account-settings/change-email/verify-email/verify-email.html"
+    : "/profile/Account-settings/change-email/verify-email/verify-email.html"
     verifybtn.disabled = true;
 }
 
