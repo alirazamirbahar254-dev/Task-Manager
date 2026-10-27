@@ -281,6 +281,30 @@ width:300px;
   transition: background-color var(--ease);
 }
 
+#columnbtn1, #columnbtn2 {
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background:none;
+  border:none;
+}
+
+#columnbtn1 svg,
+#columnbtn2 svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+#columnbtn2{
+  color:green;
+}
+
+#columnbtn1{
+ color:red;
+}
+
 #btn:hover {
   background-color: var(--surface-2);
 }

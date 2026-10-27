@@ -38,8 +38,8 @@ const response = await fetch(`${api_base_url}/auth/change_email_otp`,{
     }else{
         showMessage(data.message, "success-message");
         verify.disabled = true;
-         const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-  
+        
+    const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
     window.location.href = isLocal
      ?"/frontend/profile/profile-settings/settings.html"
      :"/profile/profile-settings/settings.html"
