@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Email|Change Email|Account Settings</title>
+    <title>Verify New Email|Change Email|Account Settings</title>
 
     <link rel="stylesheet" href="verify-email.css">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -12,22 +12,25 @@
 <body>
 
 <div class="main_container">
+<div class="message">
+<div id="message"></div>
+
 <fieldset>
 <div class="options">
 
 <div>
 <h2>Verify your new email</h2>
-<p>We've sent a verification code to your new email address.</p>
+<p>We've sent a verification code to:  <span id="email_mask"></span></p>
 </div>
 
 <div class="otp_container">
 <div class="otp">
-  <input maxlength="1" inputmode="numeric" placeholder="–">
-  <input maxlength="1" inputmode="numeric" placeholder="–">
-  <input maxlength="1" inputmode="numeric" placeholder="–">
-  <input maxlength="1" inputmode="numeric" placeholder="–">
-  <input maxlength="1" inputmode="numeric" placeholder="–">
-  <input maxlength="1" inputmode="numeric" placeholder="–">
+  <input class="otp-input" maxlength="1" inputmode="numeric" placeholder="–">
+  <input class="otp-input" maxlength="1" inputmode="numeric" placeholder="–">
+  <input class="otp-input" maxlength="1" inputmode="numeric" placeholder="–">
+  <input class="otp-input" maxlength="1" inputmode="numeric" placeholder="–">
+  <input class="otp-input" maxlength="1" inputmode="numeric" placeholder="–">
+  <input class="otp-input" maxlength="1" inputmode="numeric" placeholder="–">
 </div>
 
 <div id="text">
@@ -41,6 +44,7 @@ Didn't receive the code? Resend code
 
 </div>
 </fieldset>
+</div>
 </div>
 <script>
   lucide.createIcons();

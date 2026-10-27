@@ -12,7 +12,6 @@ const inputs = document.querySelectorAll(".otp-input");
 const verifybtn = document.querySelector("#verify-self-btn");
 const resendbtn = document.querySelector("#resendbtn");
 
-
 const token = localStorage.getItem("token");
 
 // Masking to the email
@@ -24,7 +23,7 @@ email.textContent = (maskedemail);
 
 async function verifyemail() { 
 const response  = await fetch(`${api_base_url}/auth/verifyemail`,{
-    
+
     method: "POST",
     headers:{
         "Authorization": `Bearer ${token}`

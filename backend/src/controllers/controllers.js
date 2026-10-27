@@ -426,7 +426,6 @@ if (get.rows.length === 0) {
   });
 }
 
-
 const dbase = get.rows[0].email
 
 // generating rendom code
@@ -470,7 +469,7 @@ const verifyotp = async(req, res) => {
   const databaseotp = dbotp.rows[0].email_verification_otp
   const currenttime = new Date(Date.now())
  
-if(otp !== databaseotp){
+if(String(otp) !== String(databaseotp)){
   return res.status(400).json({
     message : "Invalid OTP"
   })
@@ -528,14 +527,18 @@ if(!dbemail){
 })
 }
 
+const emailregex =/^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+if(!emailregex.test(email)){
+return res.status(400).json({ 
+  message : "Please enter a valid 📧 Email address"})
+}
+
 const otp = crypto.randomInt(100000, 1000000)
 const expiry = new Date(Date.now() + 5 * 60 * 1000);
 
-const saveotp = await pool.query(`update users set new_email = $1, new_email_otp = $2, new_email_otp_expiry = $3 where id = $4` 
+const saveotp = await pool.query(`update users set new_email = $1, new_email_otp = $2, new_email_otp_expiry = $3 where id = $4`, 
   [email, otp, expiry, id]
 )
-
-
 
 await emailoptions(
    process.env.GMAIL_USER,
@@ -547,25 +550,61 @@ await emailoptions(
 return res.status(200).json({
   message : "code sended on your email "
 })
-// const emailregex =/^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
-// if(!emailregex.test(email)){
-// return res.status(400).json({ 
-//   message : "Please enter a valid 📧 Email address"})
 
-// }else{
-
-// const response = await pool.query(`update users set email = $1 where id = $2 `,[email, id]); 
-// return res.status(200).json({
-//   message : "Email Updated Successfully"
-// })
-// }
 }catch (error){
+  console.error(error);
   return res.status(500).json({
     message: "Internal server error"
   });
 }
+}
+
+const change_email_otp = async(req, res) => {
+try{ 
+const id = req.loginuser.user_id
+const otp = req.body.otp
+const db_data = await pool.query(`select new_email,new_email_otp,new_email_otp_expiry from users where id = $1`, [id])
+const new_email = (await db_data).rows[0].new_email;
+const new_email_otp =(await db_data).rows[0].new_email_otp;
+const otp_expiry = (await db_data).rows[0].new_email_otp_expiry
+const time = new Date(Date.now())
+
+if(String(otp) !== String(new_email_otp)){
+  return res.status(400).json({
+    message : "Invalid OTP"
+  })
+}
+
+if(time > otp_expiry){
+  return res.status(400).json({
+    message : "OTP expired"
+  })
+}
+
+const update_new_email  = await pool.query(`UPDATE users SET email = $1 WHERE id = $2`,
+  [new_email, id]
+);
+
+const update_users = await pool.query(`update users set new_email = $1,new_email_otp = $2,new_email_otp_expiry = $3 where id = $4`,
+   [null,null,null, id])
+
+return res.status(200).json({
+  message : "Email Updated successfully"
+})
+
+}catch(error){
+return res.status(500).json({
+  message :"Internal server error"
+  })
+}
 
 }
+
+
+
+
+
+
 
 export { 
 
@@ -587,6 +626,7 @@ export {
     verifyemail,
     verifyotp,
     change_email,
+    change_email_otp,
 };
 
 

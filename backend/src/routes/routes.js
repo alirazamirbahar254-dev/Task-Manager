@@ -21,6 +21,7 @@ import {
     verifyemail,
     verifyotp,
     change_email,
+    change_email_otp,
 
 } from "../controllers/controllers.js";
 
@@ -43,6 +44,8 @@ router.get("/auth/getprofile_image", authMiddleware, getprofile_image);
 router.delete("/auth/profile_image", authMiddleware, remove_profile_image);
 router.post("/auth/verifyemail", authMiddleware, verifyemail);
 router.post("/auth/verifyotp", authMiddleware, verifyotp);
-router.post("/auth/change_email", authMiddleware, change_email)
+router.post("/auth/change_email", authMiddleware, change_email);
+router.post("/auth/change_email_otp", authMiddleware, change_email_otp);
+
 export default router;
 

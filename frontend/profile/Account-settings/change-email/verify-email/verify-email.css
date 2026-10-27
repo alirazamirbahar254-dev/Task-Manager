@@ -72,6 +72,34 @@ p{
     
 }
 
+#email_mask {
+    display: block;
+    margin-left: 8px;
+}
+
+.message{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    align-items: center;
+    
+}
+
+#message{
+    display:flex;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    min-height: 24px;
+}
+
+.success-message{
+color:green;
+}
+.error-message{
+color:red;
+}
+
+
 .otp_container{
     display: flex;
     justify-content: center;
