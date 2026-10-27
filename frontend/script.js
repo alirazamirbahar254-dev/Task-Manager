@@ -351,7 +351,6 @@ if (undobtn) {
   }
 
   function collapse() {
-  console.log("Collapse function called")
   
   JSON.parse(localStorage.getItem("collapsebtn")) || {};
     document.querySelectorAll(".collapse-btn").forEach(button => {
@@ -367,8 +366,8 @@ console.log("column classes:", column.className);
 
        console.log("active:", box.classList.contains("active"));
 console.log("collapsed:", column.classList.contains("collapsed"));
-        syncCollapseIcon(button, box);
 
+        syncCollapseIcon(button, box);
         if(collapsebtn[column.id]){
          box.classList.contains("active");
         } 

@@ -394,14 +394,6 @@ width:300px;
   transition: background-color var(--ease), min-width var(--ease), max-width var(--ease), flex var(--ease), width var(--ease);
 }
 
-.column.collapsed {
-  flex: 0 0 90px;
-  min-width: 90px;
-  max-width: 90px;
-  width: 90px;
-  padding-inline: 8px;
-}
-
 .column-header {
   display: flex;
   align-items: center;
@@ -420,6 +412,14 @@ width:300px;
   margin-left: -2px;
 }
 
+.column.collapsed {
+  flex: 0 0 90px;
+  min-width: 90px;
+  max-width: 90px;
+  width: 90px;
+  padding-inline: 8px;
+}
+
 .collapse-btn{
   display: flex;
   margin-left: auto;
@@ -434,6 +434,23 @@ width:300px;
   
 }
 
+.collapse-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  background-color: currentColor;
+}
+
+.collapse-icon.ti-arrows-minimize {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4l6 6m-6-2V4h4m12 0-6 6m6-2V4h-4M4 20l6-6m-6 2v4h4m12 0-6-6m6 2v4h-4'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4l6 6m-6-2V4h4m12 0-6 6m6-2V4h-4M4 20l6-6m-6 2v4h4m12 0-6-6m6 2v4h-4'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.collapse-icon.ti-arrows-maximize {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 10H4V4m0 6 6-6m4 6h6V4m0 6-6-6M10 14H4v6m0-6 6 6m4-6h6v6m0-6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 10H4V4m0 6 6-6m4 6h6V4m0 6-6-6M10 14H4v6m0-6 6 6m4-6h6v6m0-6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 .collapse-btn:hover {
   background-color: var(--surface-2);
   color: var(--text-primary);
@@ -1079,4 +1096,3 @@ textarea::placeholder {
     max-width: 90vw;
   }
 }
-
