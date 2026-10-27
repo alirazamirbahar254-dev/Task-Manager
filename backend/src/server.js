@@ -13,7 +13,8 @@ app.use(cors({
     origin: [
         "http://127.0.0.1:5500",
         "http://localhost:5500",
-        "https://task-manager-frontend-plum-alpha.vercel.app"
+        "https://task-manager-frontend-gmu4m4nma-aliraza-s-project.vercel.app",
+        "https://task-manager-frontend-plum-alpha.vercel.app",
     ],
     credentials: true
 }));
