@@ -22,11 +22,11 @@
   text-align: center;
   width: 100%;
   min-height: 100vh;
+  padding: 24px 16px;
   background-color: #F7F7F9;
   font-family: 'Poppins', sans-serif;
   flex-direction:column;
   user-select: none;
-  
   
 }
 
@@ -82,9 +82,10 @@ fieldset h2{
 fieldset{
     display:flex;
     flex-direction: column;
-    width:  600px;
-    height: 430px;
-    padding:6px;
+    width: min(600px, 100%);
+    min-height: 430px;
+    height: auto;
+    padding: 16px;
     border-radius: var(--radius-card);
     background-color:#FFFFFF;
     color: #000;
@@ -114,7 +115,8 @@ flex-direction:row;
 box-shadow:  0 4px 3px 0 rgba(0,0, 0,0.10);
 border-radius:  5px;
 border:#20212a;
-height:90px;
+min-height:90px;
+height:auto;
 width: 100%;
 box-sizing: border-box;
 }
@@ -195,11 +197,11 @@ box-sizing: border-box;
     transform: translateX(-5px);
 }
 
-#delete-icon{
+#delete-icon, #logout_icon{
     color:red;
 }
 
-#arro_delete{
+#arro_delete, #arro_logout{
     color:red;
     cursor:pointer;
 }
@@ -226,13 +228,103 @@ p {
     font-size: 0.85rem;
 }
 
-
-
 #arrow_delete_box {
     margin-right: 12px;
     cursor:pointer;
 }
+
 /* colors of arrows */
+#logout-popup-container{
+    color:red;
+    position: fixed;
+    top: 0;
+    right: clamp(12px, 3vw, 24px);
+    bottom: 0;
+    width: min(400px, calc(100vw - 24px));
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    display:none;
+}
 
+#logout-popup-container.active{
+    display:flex;
+}
 
+#delete-popup-container{
+    color:red;
+    position: fixed;
+    top: 0;
+    right: clamp(12px, 3vw, 24px);
+    bottom: 0;
+    width: min(400px, calc(100vw - 24px));
+    z-index: 1000;
+    display: none;
+    justify-content: flex-end;
+    align-items: center;
+}
 
+#delete-popup-container.active{
+    display:flex;
+}
+
+#logout-popup-container .log_out_popup {
+    transform: translateY(20px);
+}
+
+#delete-popup-container .log_out_popup {
+    transform: translateY(20px);
+}
+
+@media (max-width: 600px) {
+    .main_container {
+        padding: 20px 12px;
+    }
+
+    .header_space,
+    .account_options {
+        width: 100%;
+    }
+
+    fieldset {
+        min-height: 0;
+        padding: 12px;
+    }
+
+    fieldset h2 {
+        padding: 8px;
+        font-size: 1.25rem;
+    }
+
+    .field_options {
+        gap: 12px;
+        padding: 6px;
+    }
+
+    .change_email,
+    .logout_devices,
+    .delete_account {
+        padding: 10px 8px;
+        gap: 8px;
+    }
+
+    .edit_box,
+    .logout_text,
+    .delete_text {
+        min-width: 0;
+        padding: 6px;
+    }
+
+    .edit_box h4,
+    .logout_text h4,
+    .delete_text h4 {
+        font-size: 0.9rem;
+    }
+
+    .edit_box p,
+    .logout_text p,
+    .delete_text p {
+        font-size: 0.78rem;
+    }
+}

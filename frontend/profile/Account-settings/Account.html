@@ -5,11 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Settings | Task Manager</title>
     <link rel="stylesheet" href="Account.css">
+    <link rel="stylesheet" href="./Logout-all-devices/logout.css">
+    <link rel="stylesheet" href="./delete_account/delete.css">
+
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 <!-- full_page container -->
 <main class="main_container"> 
+
+<div class="container">
+<div id="logout-popup-container"></div>
+</div>
+<div class="delet_container">
+<div id="delete-popup-container"></div>
+</div>
+
 <div class="header_space">
 <!-- title and description for page -->
 <header class="page_header">
@@ -49,6 +60,7 @@
 </div>
 <div class="logout_text">
 <div>
+
 <h4>Logout from All Devices</h4> 
 <p>Sign out of your account on all devices</p>
 </div>
@@ -63,6 +75,7 @@
 <div delete_icon_box >
 <div id="delete"><i data-lucide="trash-2" id="delete-icon"></i></div>
 </div>
+
 <div class="delete_text">
 <div>
 <h4>Delete Account</h4>
@@ -79,6 +92,7 @@
 </fieldset>
 </div>
 </main>
+
 <script>
   lucide.createIcons();
 </script>
