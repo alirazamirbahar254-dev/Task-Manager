@@ -14,7 +14,6 @@ auth: {
 })
 
 const emailoptions = async (from,to,subject,text) => {
-
 // 2. Define the email options
 const options = {
 from: from,                     //`"Todo App Verification" <${process.env.GMAIL_USER}>`,
@@ -30,11 +29,11 @@ console.log("Email sent successfully! Message ID:", info.messageId);
 }catch(error){
     console.error("Error occurred:", error);
     throw error;
-    
 }
 }
 
 export {
     emailoptions
 }
+
 

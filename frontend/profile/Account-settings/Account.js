@@ -1,4 +1,5 @@
 lucide.createIcons();
+
 document.addEventListener("DOMContentLoaded", () => {
     fetch(`./Logout-all-devices/logout.html`)
     .then(response => response.text())
@@ -13,8 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
-
-
 const edit = document.querySelector("#edit");
 edit.addEventListener("click", () => {
 window.location.href = "change-email/verify-your-self/verify-self.html";
@@ -28,7 +27,6 @@ const delete_account = document.querySelector(".delete_account");
 logout_devices.addEventListener("click", () => {
 delete_popup_container.classList.remove("active");
 logout_popup_container.classList.toggle("active")
-
 })
 
 delete_account.addEventListener("click", () => {
@@ -47,3 +45,5 @@ delete_popup_container.contains(e.target)
 logout_popup_container.classList.remove("active")
 delete_popup_container.classList.remove("active")
 })
+
+

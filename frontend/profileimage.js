@@ -34,7 +34,6 @@ const response = await fetch(`${api_base_url}/auth/getprofile_image`,{
 })
 
 if(!response.ok) return;
-
 const data = await response.blob()
 
 images.forEach((img) => {

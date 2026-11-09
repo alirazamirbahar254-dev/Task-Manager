@@ -22,6 +22,7 @@ import {
     verifyotp,
     change_email,
     change_email_otp,
+    logout_all,
 
 } from "../controllers/controllers.js";
 
@@ -46,6 +47,7 @@ router.post("/auth/verifyemail", authMiddleware, verifyemail);
 router.post("/auth/verifyotp", authMiddleware, verifyotp);
 router.post("/auth/change_email", authMiddleware, change_email);
 router.post("/auth/change_email_otp", authMiddleware, change_email_otp);
+router.post("/auth/logout_all", authMiddleware, logout_all);
 
 export default router;
 

@@ -18,6 +18,7 @@ CREATE TABLE users (
     new_email VARCHAR(255),
     new_email_otp VARCHAR(6),
     new_email_otp_expiry TIMESTAMP;
+    COLUMN token_number INT NOT NULL DEFAULT 1;
 );
 
 -- =========================
@@ -36,3 +37,4 @@ CREATE TABLE tasks (
         FOREIGN KEY (user_id)
         REFERENCES users(id)
 );
+

@@ -112,14 +112,13 @@ res.status(201).send("Registration successful");
 if(error.code === "23505"){
 res.status(409).json({message:"Email already exists"});
 }
-
 }
 }
 
 const loginuser = async (req, res) => {
 const {email, password}  = req.body;
 const login =  await pool.query(`select * from users where email = $1`, [email])
-const {id:user_id , password:hashedpassword, name, email: useremail} = login.rows[0];
+const {id:user_id , password:hashedpassword, name, email: useremail,token_number: token_number } = login.rows[0];
 const compare = await bcrypt.compare(password,hashedpassword);
 console.log(compare);
 
@@ -129,7 +128,7 @@ let refreshtoken;
 if(compare){
     
 const update = pool.query(`update users SET last_refresh = CURRENT_TIMESTAMP,session_start=CURRENT_TIMESTAMP where id =$1`,[user_id])
-const payload = {user_id}
+const payload = {user_id, token_number}
 const secret = process.env.JWT_SECRET;
 token = jwt.sign(payload, secret, {expiresIn : '1h'})   
 
@@ -162,11 +161,19 @@ if(error){
 }
 
 //rolling refresh
-const payload = { user_id: decode.user_id };
-const rolling = await pool.query(`select last_refresh,session_start from users where id = $1`,[decode.user_id])
+const payload = { user_id: decode.user_id, token_number: decode.token_number };
+const rolling = await pool.query(`select last_refresh,session_start,token_number from users where id = $1`,[decode.user_id])
 // DB se user ka last refresh time nikal rahe hain
 const lastrefresh = rolling.rows[0].last_refresh
 const session_start = rolling.rows[0].session_start
+const token_number = rolling.rows[0].token_number
+
+if(token_number !== decode.token_number){
+    return res.status(401).json({
+        message:"Token has been invalidated, please login again"
+    })
+}
+
 // Abhi ke time aur last refresh ke time ka difference nikal rahe hain
 const difference = Date.now() - new Date(lastrefresh).getTime()
 
@@ -597,11 +604,29 @@ return res.status(500).json({
   message :"Internal server error"
   })
 }
-
 }
 
-export { 
 
+const logout_all = async(req, res) => {
+  console.log("LOGOUT ALL CONTROLLER HIT")
+try{ 
+const id = req.loginuser.user_id
+const db = await pool.query(`update users set token_number = token_number + 1 where id=$1`,[id])
+
+res.clearCookie("refreshtoken")
+res.status(200).json({message:"Logout_all successful"})
+
+}catch (error){
+  console.error(error)
+  return res.status(500).json({
+  message :"Internal server error"
+  })
+
+}
+}
+
+
+export { 
     createtask, 
     getAllTasks, 
     getTask, 
@@ -621,6 +646,7 @@ export {
     verifyotp,
     change_email,
     change_email_otp,
+    logout_all,
 };
 
 
