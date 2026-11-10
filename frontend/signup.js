@@ -30,7 +30,6 @@ const response = await fetch(`${api_base_url}/auth/register`,
       }, 
 
     body :JSON.stringify(userdata),
-    
     })
 
      const data = await response.text() 

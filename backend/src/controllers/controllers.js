@@ -608,7 +608,7 @@ return res.status(500).json({
 
 
 const logout_all = async(req, res) => {
-  console.log("LOGOUT ALL CONTROLLER HIT")
+  
 try{ 
 const id = req.loginuser.user_id
 const db = await pool.query(`update users set token_number = token_number + 1 where id=$1`,[id])
@@ -624,6 +624,17 @@ res.status(200).json({message:"Logout_all successful"})
 
 }
 }
+
+const delete_account = async(req, res) => {
+const id = req.loginuser.user_id
+const db = await pool.query(`select `)
+
+
+
+}
+
+
+
 
 
 export { 

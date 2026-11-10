@@ -19,6 +19,8 @@ CREATE TABLE users (
     new_email_otp VARCHAR(6),
     new_email_otp_expiry TIMESTAMP;
     COLUMN token_number INT NOT NULL DEFAULT 1;
+    COLUMN deleted_at TIMESTAMPTZ DEFAULT NULL,
+    COLUMN deletion_expires_at TIMESTAMPTZ DEFAULT NULL;
 );
 
 -- =========================
