@@ -11,6 +11,7 @@ const editname = document.querySelector("#edit-text");
 const message = document.querySelector("#message");
 const nameicon = document.querySelector("#name-icon");
 const image = document.querySelector("#image");
+const back = document.querySelector("#back")
 
 const imageinput = document.querySelector("#image-input");
 const token = localStorage.getItem("token");
@@ -91,4 +92,10 @@ message.textContent = data.message;
 }else{
 message.textContent = data.message
 }
+})
+
+back.addEventListener("click", () => {
+//   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+//   window.location.href = isLocal
+  window.location.href = "../Account-settings/Account.html";
 })
