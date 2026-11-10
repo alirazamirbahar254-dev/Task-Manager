@@ -1,3 +1,6 @@
+import accountCleanup from "./jobs/accountCleanup.js";
+import cron from "node-cron";
+
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
@@ -5,7 +8,6 @@ import { emailoptions } from "../services/emailservices.js";
 import cors from "cors";
 import taskRoutes from "./routes/routes.js";
 import cookieParser from "cookie-parser";
-
 const app = express();
 app.use(cookieParser());
 
@@ -21,6 +23,17 @@ app.use(cors({
 
 app.use(express.json());
 app.use(taskRoutes);
+
+// added aa time schedule for cleanup tha expire users basis on contry 
+cron.schedule("0 0 * * *", () => {
+  accountCleanup();
+}, {
+  timezone: "Asia/Karachi"
+});
+
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");

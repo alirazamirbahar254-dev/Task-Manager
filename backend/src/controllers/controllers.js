@@ -118,19 +118,40 @@ res.status(409).json({message:"Email already exists"});
 const loginuser = async (req, res) => {
 const {email, password}  = req.body;
 const login =  await pool.query(`select * from users where email = $1`, [email])
-const {id:user_id , password:hashedpassword, name, email: useremail,token_number: token_number } = login.rows[0];
+
+
+if(!email){
+  res.status(400).json({
+    message:"user is undefine"
+  })
+}
+
+const {id:user_id , password:hashedpassword, name, email: useremail,token_number: token_number, deleted_at:deleted_at, deletion_expires_at:deletion_expires_at} = login.rows[0];
+
 const compare = await bcrypt.compare(password,hashedpassword);
-console.log(compare);
 
 let token;
 let refreshtoken;
 
 if(compare){
+if(deleted_at){
+  if (new Date(deletion_expires_at).getTime() > Date.now()) {
+const update = await pool.query(`update users 
+set deleted_at = NULL, deletion_expires_at = NULL
+ where id = $1`, [user_id])
+
+}else{
+ return res.status(410).json({
+    message:"Recovery period has expired"
+  });
+}
+}
     
 const update = pool.query(`update users SET last_refresh = CURRENT_TIMESTAMP,session_start=CURRENT_TIMESTAMP where id =$1`,[user_id])
 const payload = {user_id, token_number}
 const secret = process.env.JWT_SECRET;
 token = jwt.sign(payload, secret, {expiresIn : '1h'})   
+
 
 // refresh for user to continue work 
 const refresh = process.env.REFRESH_SECRET;
@@ -627,15 +648,32 @@ res.status(200).json({message:"Logout_all successful"})
 
 const delete_account = async(req, res) => {
 const id = req.loginuser.user_id
-const db = await pool.query(`select `)
+try{ 
+const db = await pool.query(`UPDATE users
+SET 
+    deleted_at = NOW(),
+    deletion_expires_at = NOW() + INTERVAL '30 days'
+WHERE id = $1
+RETURNING id, deleted_at, deletion_expires_at`, [id])
 
 
-
+if (db.rowCount === 1){
+  res.status(200).json({
+    message:"Account scheduled for deletion"
+  })
+}else{
+res.status(404).json({
+  message:"User not found"
+})
 }
 
-
-
-
+}catch (error){
+  console.error(error)
+  return res.status(500).json({
+  message :"Internal server error"
+  })
+}
+}
 
 export { 
     createtask, 
@@ -658,6 +696,7 @@ export {
     change_email,
     change_email_otp,
     logout_all,
+    delete_account,
 };
 
 

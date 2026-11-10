@@ -19,6 +19,7 @@ for (const user of result.rows) {
     )
 }
 await client.query("COMMIT");
+
 }catch(error){
 await client.query("ROLLBACK");
 console.error("Account cleanup failed:", error);

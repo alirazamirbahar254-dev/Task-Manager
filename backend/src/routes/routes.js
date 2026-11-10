@@ -24,7 +24,6 @@ import {
     change_email_otp,
     logout_all,
     delete_account,
-
 } from "../controllers/controllers.js";
 
 const router = Router();
