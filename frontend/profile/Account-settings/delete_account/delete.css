@@ -1,5 +1,5 @@
 /* full_page container  */
-.log_out_popup {
+.delete_popup {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,7 @@
 }
 
 /* title and description for page */
-.popup_page_header{
+.delete_header{
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -57,7 +57,7 @@
     padding: 24px;
 }
 
-#logout-btn {
+#delete-btn {
     display: flex;
     justify-content: center;
     min-height: 48px;
@@ -65,7 +65,7 @@
     align-self: center;
 }
 
-#logout_all{
+#delete_all{
     color:white;
     background:blue;
     border-radius: 10px;
@@ -81,7 +81,7 @@
    
 }
 
-#logout_all:hover{
+#delete_all:hover{
   background-color: red;
   transition: background-color 0.4s ease;
 }
@@ -97,7 +97,7 @@
         font-size: 1.1rem;
     }
 
-    #logout-btn {
+    #delete-btn {
         width: 100%;
     }
 }

@@ -1,8 +1,8 @@
 import  api_base_url  from "../../../config.js";
 
-const delete_account = document.querySelector("#logout-popup-container");
+document.addEventListener("click", async(event) => {
+if (!(event.target instanceof Element) || !event.target.closest("#delete_all")) return;
 
-delete_account.addEventListener("click", async() => {
 const token = localStorage.getItem("token");
 try{ 
 const response = await fetch (`${api_base_url}/auth/delete_account`,{
@@ -16,9 +16,9 @@ headers:{
 
 const data = await response.json()
 if(!response.ok){
-  return  data.message
+  return alert(data.message)
 }
-
+alert(data.message);
 localStorage.removeItem("token");
 localStorage.removeItem("name");
 localStorage.removeItem("email");

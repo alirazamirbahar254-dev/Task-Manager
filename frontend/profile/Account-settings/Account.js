@@ -4,13 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(`./Logout-all-devices/logout.html`)
     .then(response => response.text())
     .then(html => {
-        document.getElementById("logout-popup-container").innerHTML=html;
+    document.getElementById("logout-popup-container").innerHTML=html;
     })
 
     fetch(`./delete_account/delete.html`)
     .then(response => response.text())
     .then(html => {
-        document.getElementById("delete-popup-container").innerHTML=html;
+    document.getElementById("delete-popup-container").innerHTML=html;
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = "./delete_account/delete.js";
+    document.body.appendChild(script);
+        
     })
 })
 
