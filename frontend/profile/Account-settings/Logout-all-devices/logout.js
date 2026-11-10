@@ -18,6 +18,7 @@ if(!response.ok){
 return data.message
 }
 
+alert(data.message);
 localStorage.removeItem("token");
 localStorage.removeItem("name");
 localStorage.removeItem("email");
@@ -27,4 +28,3 @@ window.location.href = "../../signin.html"
 console.error("Internal Server Error",error)
 }
 });
-
