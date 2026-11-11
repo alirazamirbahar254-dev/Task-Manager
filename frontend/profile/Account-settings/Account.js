@@ -1,6 +1,8 @@
-lucide.createIcons();
 
+lucide.createIcons();
+import theme from "../../theme/theme.js";
 document.addEventListener("DOMContentLoaded", () => {
+    theme()
     fetch(`./Logout-all-devices/logout.html`)
     .then(response => response.text())
     .then(html => {
