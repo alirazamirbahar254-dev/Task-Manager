@@ -524,12 +524,17 @@ document.addEventListener("keydown", (e) => {
   }
 
   async function submitCard() {
-    if (editcard) {
+     if (!input.value.trim()) {
+        alert("Task title cannot be empty!");
+        return;
+    }
 
+    if (editcard) {
+      
 /* Duplicate title check */
-    const isDuplicate = tasks.some(t => t.title.trim().toLowerCase() === input.value.trim().toLowerCase())
+    const isDuplicate = tasks.some(t =>t.id !== editcard.id && t.title.trim().toLowerCase() === input.value.trim().toLowerCase())
     if(isDuplicate ){
-     console.warn("A task with this title already exists!");
+     alert("A task with this title already exists!");
      return
     }
 
