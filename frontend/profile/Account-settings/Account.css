@@ -336,3 +336,40 @@ p {
         font-size: 0.78rem;
     }
 }
+
+body.dark fieldset {
+    box-shadow: var(--shadow-md);
+}
+
+body.dark .change_email,
+body.dark .logout_devices,
+body.dark .delete_account {
+    box-shadow: var(--shadow-sm);
+}
+
+body.dark #icon,
+body.dark #arro_logout {
+    color: var(--accent);
+}
+
+body.dark #edit {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+
+body.dark #edit:hover {
+    background-color: var(--accent-hover);
+}
+
+body.dark #delete-icon,
+body.dark #logout_icon,
+body.dark #arro_delete,
+body.dark #arro_logout,
+body.dark #logout-popup-container,
+body.dark #delete-popup-container {
+    color: var(--danger);
+}
+
+body.dark {
+    color-scheme: dark;
+}

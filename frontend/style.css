@@ -1096,3 +1096,41 @@ textarea::placeholder {
     max-width: 90vw;
   }
 }
+
+body.dark {
+  color-scheme: dark;
+}
+
+body.dark #columnbtn2 {
+  color: var(--success);
+}
+
+body.dark #columnbtn1,
+body.dark .delete-btn {
+  color: var(--danger);
+}
+
+body.dark .edit-btn {
+  color: var(--accent);
+}
+
+body.dark .edit-btn:hover {
+  background: var(--accent-soft);
+}
+
+body.dark .delete-btn:hover {
+  background: var(--danger-soft);
+}
+
+body.dark .boxd .yes:hover {
+  background: var(--danger);
+}
+
+body.dark .undo-btn {
+  background: var(--success);
+  color: var(--bg);
+}
+
+body.dark .undo-btn:hover {
+  background: var(--success);
+}

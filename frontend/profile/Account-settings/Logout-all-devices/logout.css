@@ -102,3 +102,31 @@
         width: 100%;
     }
 }
+
+body.dark {
+  color-scheme: dark;
+}
+
+body.dark .log_out_popup {
+  background-color: var(--bg);
+}
+
+body.dark #popup_fields {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-md);
+}
+
+body.dark .popup_page_header p {
+  color: var(--text-secondary);
+}
+
+body.dark #logout_all {
+  color: #fff;
+  background-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+body.dark #logout_all:hover {
+  background-color: var(--danger);
+}

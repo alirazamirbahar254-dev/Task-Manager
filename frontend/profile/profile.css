@@ -199,3 +199,37 @@ padding: 30px 5px 5px;
   align-items:center;
   justify-content:center;
 }
+
+body.dark .profile-menu {
+  background-color: var(--surface);
+  border-color: var(--border);
+}
+
+body.dark {
+  color-scheme: dark;
+}
+
+body.dark .info1 {
+  background-color: var(--accent);
+}
+
+body.dark .info2 {
+  background-color: var(--surface-2);
+  color: var(--text-primary);
+}
+
+body.dark .info2 button {
+  color: var(--text-primary);
+}
+
+body.dark #outer-letter,
+body.dark #inner-letter {
+  background-color: var(--surface-2);
+  color: var(--accent);
+}
+
+body.dark #google-login {
+  background-color: var(--surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}

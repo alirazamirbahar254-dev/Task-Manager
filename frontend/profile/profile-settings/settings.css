@@ -366,3 +366,60 @@ display:flex;
         overflow-wrap: anywhere;
     }
 }
+
+body.dark {
+    color-scheme: dark;
+}
+
+body.dark .page-header p,
+body.dark .section-copy p,
+body.dark #email {
+    color: var(--text-secondary);
+}
+
+body.dark .settings-card {
+    border-color: var(--border);
+    background: var(--surface);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-md);
+}
+
+body.dark #icon-box,
+body.dark .info {
+    background-color: var(--surface-2);
+    color: var(--text-primary);
+}
+
+body.dark #letter {
+    background-color: var(--accent);
+}
+
+body.dark #edit-text {
+    background-color: var(--surface-2);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+body.dark #edit-text:hover,
+body.dark #edit-text:focus {
+    border-color: var(--accent);
+}
+
+body.dark #name-icon,
+body.dark #edit-icon {
+    color: var(--accent);
+}
+
+body.dark #normal-text:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+body.dark #go_back {
+    background: var(--accent);
+    color: #fff;
+}
+
+body.dark #go_back:hover {
+    background-color: var(--accent-hover);
+}
