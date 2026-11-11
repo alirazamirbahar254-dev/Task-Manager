@@ -363,6 +363,7 @@ console.log("column classes:", column.className);
 
         box.classList.toggle("active");
         column.classList.toggle("collapsed");
+        collapsebtn[column.id] = column.classList.contains("collapsed");
 
        console.log("active:", box.classList.contains("active"));
 console.log("collapsed:", column.classList.contains("collapsed"));
@@ -722,6 +723,7 @@ return response;
   document.querySelectorAll(".column").forEach(column => {
     const box = column.querySelector(".box");
     const button = column.querySelector(".collapse-btn");
+    column.classList.toggle("collapsed", Boolean(collapsebtn[column.id]));
     if (collapsebtn[column.id]) {
       box.classList.add("active");
     } else {
