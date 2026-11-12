@@ -37,9 +37,11 @@ if(!response.ok){
     showMessage(data.message, "success-message");
     const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
   
-window.location.href = isLocal
-    ? "/frontend/profile/Account-settings/change-email/verify-email/verify-email.html"
-    : "/profile/Account-settings/change-email/verify-email/verify-email.html"
+setTimeout(() => {
+   window.location.href = isLocal
+       ? "/frontend/profile/Account-settings/change-email/verify-email/verify-email.html"
+       : "/profile/Account-settings/change-email/verify-email/verify-email.html";
+}, 1500);
     verifybtn.disabled = true;
 }
 
@@ -49,5 +51,4 @@ window.location.href = isLocal
 }
 
 })
-
 

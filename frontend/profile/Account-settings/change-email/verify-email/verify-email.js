@@ -1,12 +1,17 @@
 import api_base_url from "../../../../config.js";
 import showMessage from "../../../../messages.js";
+import  setupOTPInputs from "../../otp-input.js";
+document.addEventListener("DOMContentLoaded", () => {
+    setupOTPInputs()
+});
+
 lucide.createIcons();
 const token = localStorage.getItem("token");
 const email = localStorage.getItem("email");
 const masked_email = document.querySelector("#email_mask");
 const inputs = document.querySelectorAll(".otp-input");
 const verify = document.querySelector("#verify-btn");
-const message = document.querySelector("#message");
+const message = document.querySelector("etupOTPInput#message");
 
 
 let split_email = email.split("@");

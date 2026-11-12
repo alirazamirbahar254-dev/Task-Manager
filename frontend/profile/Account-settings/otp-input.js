@@ -1,4 +1,6 @@
+
 function setupOTPInputs(){
+const inputs = document.querySelectorAll(".otp-input");
      // Move forward on valid digit entry
     inputs.forEach((input, index) => {
         input.addEventListener('input', (e) => {
@@ -8,8 +10,8 @@ function setupOTPInputs(){
                 inputs[index +1].focus()
             }
         })
-    })
-    
+   
+
     input.addEventListener('keydown', (e) => {
         if(e.key === 'Backspace' && !e.target.value && index > 0){
             inputs[index -1].focus()
@@ -22,15 +24,16 @@ function setupOTPInputs(){
         .getData('text')
         .replace(/\D/g, '')
         .slice(0, inputs.length);
-    })
+    
 
-    pasted.split('').foreach((char, i) => {
-        if(input[i]) inputs[i].value = char
+    pasted.split('').forEach((char, i) => {
+        if(inputs[i]) inputs[i].value = char
     })
-
+   
     const nextfocus = Math.min(pasted.length, inputs.length -1)
     inputs[nextfocus].focus()
-    }
-
+    })
+ })
+  }
     export default setupOTPInputs;
    

@@ -1,6 +1,9 @@
 import api_base_url from "../../../../config.js";
 import showMessage from "../../../../messages.js";
+import  setupOTPInputs from "../../otp-input.js";
+
 document.addEventListener("DOMContentLoaded", () => {
+    setupOTPInputs()
     verifyemail();
 })
 
