@@ -1,7 +1,9 @@
 import  api_base_url  from "../../../config.js";
 const log_out = document.querySelector("#logout-popup-container");
 
-log_out.addEventListener("click", async() => {
+log_out.addEventListener("click", async(event) => {
+if (!(event.target instanceof Element) || !event.target.closest("#logout_all")) return;
+
 const token = localStorage.getItem("token");
 try{ 
 const response = await fetch(`${api_base_url}/auth/logout_all`,{

@@ -281,8 +281,8 @@ p {
     transform: translateY(20px);
 }
 
-#delete-popup-container .log_out_popup {
-    transform: translateY(20px);
+#delete-popup-container .delete_popup {
+    transform: translateY(130px);
 }
 
 @media (max-width: 600px) {

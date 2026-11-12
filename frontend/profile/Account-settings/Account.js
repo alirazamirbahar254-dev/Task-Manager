@@ -45,12 +45,11 @@ document.addEventListener("click", (e) => {
 if (
 logout_devices.contains(e.target) ||
 delete_account.contains(e.target) ||
-logout_popup_container.contains(e.target) ||
-delete_popup_container.contains(e.target)
+logout_popup_container.querySelector(".log_out_popup")?.contains(e.target) ||
+delete_popup_container.querySelector(".delete_popup")?.contains(e.target)
 ) return;
 
 logout_popup_container.classList.remove("active")
 delete_popup_container.classList.remove("active")
 })
-
 
